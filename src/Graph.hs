@@ -11,16 +11,7 @@ symmetric r = r ++ [(y, x) | (x, y) <- r, (y, x) `notElem` r]
 reflexive :: Eq a => Graph a -> Graph a
 reflexive r = r ++ [(x, x) | x <- domain r, (x, x) `notElem` r]
 
--- |Returns whether a relation is a subset of another.
-subset :: Eq a => Graph a -> Graph a -> Bool
-subset [] _ = True
-subset (x : xs) ys = x `elem` ys && subset xs ys
-
--- |Returns whether a relation is a permutation of another.
-permutation :: Eq a => Graph a -> Graph a -> Bool
-permutation r s = r `subset` s && s `subset` r
-
--- |Returns the domain of this graph.
+-- |Returns the domain of this relation.
 domain :: Eq a => Graph a -> [a]
 domain = flatten [] where
     flatten xs [] = xs
@@ -29,3 +20,12 @@ domain = flatten [] where
       | a `notElem` xs = flatten (a : xs) ys
       | b `notElem` xs = flatten (b : xs) ys
       | otherwise = flatten xs ys
+
+-- |Returns whether a relation is a permutation of another.
+permutation :: Eq a => Graph a -> Graph a -> Bool
+permutation r s = r `subset` s && s `subset` r
+
+-- |Returns whether a relation is a subset of another.
+subset :: Eq a => Graph a -> Graph a -> Bool
+subset [] _ = True
+subset (x : xs) s = x `elem` s && subset xs s
