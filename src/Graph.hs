@@ -48,7 +48,11 @@ domain = flatten [] where
 
 -- |Returns whether a relation is a permutation of another.
 permutation :: Eq a => Graph a -> Graph a -> Bool
-permutation r s = r `subset` s && s `subset` r
+permutation r s = r `subset` s && r `supset` s
+
+-- |Returns whether a relation is a subset of another.
+supset :: Eq a => Graph a -> Graph a -> Bool
+supset r s = s `supset` r
 
 -- |Returns whether a relation is a subset of another.
 subset :: Eq a => Graph a -> Graph a -> Bool
