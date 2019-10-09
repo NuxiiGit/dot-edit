@@ -1,3 +1,4 @@
+import Relation
 import Graph
 
 letters :: Graph String
