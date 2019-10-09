@@ -1,7 +1,20 @@
-module Graph (Graph, symmetric, reflexive, subset, permutation, domain) where
+module Graph (Graph,
+        add, remove,
+        symmetric, reflexive,
+        domain, permutation, subset) where
 
--- |A type alias which describes a relation information.
+-- |A type alias which describes relation information.
 type Graph a = [(a, a)]
+
+-- |Adds a new edge to the graph.
+add :: Eq a => Graph a -> a -> a -> Graph a
+add r a b
+  | (a, b) `elem` r = r
+  | otherwise = (a, b) : r
+
+-- |Removes a node from the graph.
+remove :: Eq a => Graph a -> a -> Graph a
+remove r x = filter (\(a, b) -> a /= x && b /= x) r
 
 -- |Computes the symmetric closure for this relation.
 symmetric :: Eq a => Graph a -> Graph a
