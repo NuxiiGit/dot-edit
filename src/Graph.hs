@@ -1,6 +1,6 @@
 module Graph (Graph,
         add, remove,
-        symmetric, reflexive,
+        symmetric, reflexive, compose,
         domain, permutation, subset) where
 
 -- |A type alias which describes relation information.
@@ -23,6 +23,10 @@ symmetric r = r ++ [(y, x) | (x, y) <- r, (y, x) `notElem` r]
 -- |Computes the reflexive closure for this relation.
 reflexive :: Eq a => Graph a -> Graph a
 reflexive r = r ++ [(x, x) | x <- domain r, (x, x) `notElem` r]
+
+-- |Computes the composition of two relations.
+compose :: Eq a => Graph a -> Graph a -> Graph a
+compose r s = [(x, w) | (x, y) <- r, (z, w) <- s, y == z]
 
 -- |Returns the domain of this relation.
 domain :: Eq a => Graph a -> [a]
