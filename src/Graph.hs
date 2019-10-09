@@ -1,7 +1,8 @@
 module Graph (Graph,
         add, remove,
         symmetric, reflexive, compose, transitive, transpose,
-        domain, permutation, union, supset, subset) where
+        domain, permutation, supset, subset,
+        union, intersection, difference, set) where
 
 -- |A type alias which describes relation information.
 type Graph a = [(a, a)]
@@ -63,14 +64,18 @@ subset [] _ = True
 subset (x : xs) s = x `elem` s && subset xs s
 
 -- |Unites two relations.
--- This function will also remove duplicate elements.
 union :: Eq a => Graph a -> Graph a -> Graph a
-union r s = set (r ++ s)
+union r s = set $ r ++ s
 
--- |Unites two relations.
--- This function will also remove duplicate elements.
+-- |Returns the intersection of two relations.
 intersection :: Eq a => Graph a -> Graph a -> Graph a
 intersection r s = set [x | x <- r, x `elem` s]
+
+-- |Returns the set difference of two relations.
+difference :: Eq a => Graph a -> Graph a -> Graph a
+difference r s = set $
+        [x | x <- r, x `notElem` s] ++
+        [x | x <- s, x `notElem` r]
 
 -- |Removes duplicate elements from the relation.
 set :: Eq a => Graph a -> Graph a
