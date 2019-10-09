@@ -32,6 +32,10 @@ compose r s = [(x, w) | (x, y) <- r, (z, w) <- s, y == z]
 transitive :: Eq a => Graph a -> Graph a
 transitive r = undefined
 
+-- |Returns the transpose of this relation.
+transpose :: Eq a => Graph a -> Graph a
+transpose r = [(y, x) | (x, y) <- r]
+
 -- |Returns the domain of this relation.
 domain :: Eq a => Graph a -> [a]
 domain = flatten [] where
