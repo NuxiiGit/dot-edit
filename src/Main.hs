@@ -1,4 +1,5 @@
+import Graph
 import Relation
 
-test :: Relation Int
-test = [(1, 5)]
+test :: Graph
+test = [((1,2), (1,4))]
