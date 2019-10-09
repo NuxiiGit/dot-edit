@@ -1,7 +1,7 @@
 @echo off
-set alias=%1
+set alias="%1"
 :: check whether there was an argument
-if "%alias%" == "" (
+if %alias% == "" (
     set alias="app"
 )
 :: compile
