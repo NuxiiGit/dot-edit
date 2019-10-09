@@ -1,4 +1,4 @@
-import Graphing
+import Relation
 
-makeGraph :: Graph
-makeGraph = [((1, 2), (4, 9))]
+test :: Relation Int
+test = [(1, 5)]
