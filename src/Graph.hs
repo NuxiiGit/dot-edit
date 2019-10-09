@@ -79,8 +79,8 @@ difference r s = set $
 
 -- |Removes duplicate elements from the relation.
 set :: Eq a => Graph a -> Graph a
-set = flatten [] where
-    flatten xs [] = xs
-    flatten xs (y : ys)
-            | y `notElem` xs = flatten (y : xs) ys 
-            | otherwise = flatten xs ys
+set = merge [] where
+    merge xs [] = xs
+    merge xs (y : ys)
+            | y `notElem` xs = merge (y : xs) ys 
+            | otherwise = merge xs ys
