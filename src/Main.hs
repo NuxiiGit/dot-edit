@@ -1,4 +1,4 @@
 import Graph
 
-test :: Graph String
-test = [("A", "B"), ("C", "A"), ("K", "X")]
+letters :: Graph String
+letters = [("A", "B"), ("B", "C"), ("C", "D")]
