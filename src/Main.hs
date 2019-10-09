@@ -1,5 +1,4 @@
 import Graph
-import Relation
 
-test :: Graph
-test = [((1,2), (1,4))]
+test :: Graph String
+test = [("A", "B"), ("C", "A"), ("K", "X")]
