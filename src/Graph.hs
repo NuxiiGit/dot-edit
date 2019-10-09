@@ -67,6 +67,11 @@ subset (x : xs) s = x `elem` s && subset xs s
 union :: Eq a => Graph a -> Graph a -> Graph a
 union r s = set (r ++ s)
 
+-- |Unites two relations.
+-- This function will also remove duplicate elements.
+intersection :: Eq a => Graph a -> Graph a -> Graph a
+intersection r s = set [x | x <- r, x `elem` s]
+
 -- |Removes duplicate elements from the relation.
 set :: Eq a => Graph a -> Graph a
 set = flatten [] where
