@@ -1,5 +1,5 @@
 module Graph (Graph,
-        add, remove) where
+        add, remove, neighbours) where
     import Relation
     
     -- |A type alias which describes graph information.
@@ -12,3 +12,7 @@ module Graph (Graph,
     -- |Removes a node from the graph.
     remove :: Eq a => Graph a -> a -> Graph a
     remove r x = filter (\(a, b) -> a /= x && b /= x) r
+
+    -- |Returns the list of neighbours of this node.
+    neighbours :: Ord a => Graph a -> a -> [a]
+    neighbours r x = [b | (a, b) <- r, a == x]
