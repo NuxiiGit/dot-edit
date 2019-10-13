@@ -7,7 +7,9 @@ module Graph (Graph,
 
     -- |Adds a new edge to the graph.
     add :: Eq a => Graph a -> a -> a -> Graph a
-    add r a b = set $ (a, b) : r
+    add r a b
+        | (a, b) `notElem` r = (a, b) : r
+        | otherwise = r
 
     -- |Removes a node from the graph.
     remove :: Eq a => Graph a -> a -> Graph a
