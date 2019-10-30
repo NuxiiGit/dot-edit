@@ -13,8 +13,7 @@ module Graph (Graph,
     add :: (Node a) => (a, a) -> Graph a -> Graph a
     add n = union [n]
     
-    -- |Removes a node from the graph.
-    -- Any connected edges are also removed.
+    -- |Removes a node from the graph. Any connected edges are also removed.
     remove :: (Node a) => a -> Graph a -> Graph a
     remove x = filter (\(a, b) -> a /= x && b /= x)
 
