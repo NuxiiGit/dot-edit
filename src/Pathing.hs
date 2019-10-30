@@ -1,4 +1,4 @@
-module Pathing (depthf, breadthf) where
+module Pathing (depthf, breadthf, bestf, traversal) where
     import Node
     import Graph
     import Data.List (sort)
@@ -11,6 +11,11 @@ module Pathing (depthf, breadthf) where
     breadthf :: (Node a) => a -> Graph a -> [a]
     breadthf = traversal (\xs ys -> ys ++ xs)
     
+    -- |Computes the best-first traversal of this graph.
+    bestf :: (Node a) => (a -> Float) -> a -> Graph a -> [a]
+    bestf f = traversal (\xs ys -> organise $ ys ++ xs) where
+        organise = map (\(_, x) -> x) . sort . map (\x -> (f x, x))
+
     -- |Computes a traversal using this function to construct the frontier in the next step.
     traversal :: (Node a) => ([a] -> [a] -> [a]) -> a -> Graph a -> [a]
     traversal f x r = search [x] [] where
