@@ -1,16 +1,14 @@
-module Graph (Graph, Node,
+module Graph (Graph,
         add, remove, neighbours,
         depthf,
         symmetric, reflexive, transitive,
         compose, transpose,
         domain, permutation, supset, subset,
         union, dunion, intersection, difference, set) where
+    import Node
     
     -- |A type alias which describes graph structure.
     type Graph a = [(a, a)]
-
-    -- |A class which is used to detail node information.
-    class (Ord a) => Node a where
 
     -- |Adds a new edge to the graph.
     add :: (Node a) => (a, a) -> Graph a -> Graph a

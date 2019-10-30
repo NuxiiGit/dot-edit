@@ -1,3 +1,4 @@
+import Node
 import Graph
 
 main :: IO ()
@@ -5,8 +6,6 @@ main = do
     c <- getLine
     putStrLn $ c ++ ":"
     putStrLn $ show letters
-
-instance Node Int where
 
 letters :: Graph String
 letters = [("A", "B"), ("B", "C"), ("C", "D")]
