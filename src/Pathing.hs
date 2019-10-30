@@ -1,4 +1,4 @@
-module Pathing (depthf) where
+module Pathing (depthf, breadthf) where
     import Node
     import Graph
     import Data.List (sort)
@@ -6,6 +6,10 @@ module Pathing (depthf) where
     -- |Computes the depth-first traversal of this graph.
     depthf :: (Node a) => a -> Graph a -> [a]
     depthf = traversal (++)
+
+    -- |Computes the depth-first traversal of this graph.
+    breadthf :: (Node a) => a -> Graph a -> [a]
+    breadthf = traversal (\xs ys -> ys ++ xs)
     
     -- |Computes a traversal using this function to construct the frontier in the next step.
     traversal :: (Node a) => ([a] -> [a] -> [a]) -> a -> Graph a -> [a]
