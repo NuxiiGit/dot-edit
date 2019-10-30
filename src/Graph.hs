@@ -1,6 +1,5 @@
 module Graph (Graph,
         add, remove, neighbours,
-        depthf,
         symmetric, reflexive, transitive,
         compose, transpose,
         domain, permutation, supset, subset,
@@ -22,14 +21,6 @@ module Graph (Graph,
     -- |Computes the list of neighbours of this node.
     neighbours :: (Node a) => a -> Graph a -> [a]
     neighbours x r = [b | (a, b) <- r, a == x]
-
-    -- |Computes the depth-first traversal of this graph.
-    depthf :: (Node a) => a -> Graph a -> [a]
-    depthf x r = search [x] [] where
-        search [] visits = visits
-        search (x : xs) visits = search frontier (visits ++ [x]) where
-            frontier = xs ++ [x | x <- neighbours x r,
-                    x `notElem` xs && x `notElem` visits]
 
     -- |Computes the symmetric closure of this graph.
     symmetric :: (Node a) => Graph a -> Graph a
