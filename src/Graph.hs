@@ -1,5 +1,6 @@
 module Graph (Graph,
-        add, remove, neighbours, bestf) where
+        add, remove, neighbours,
+        depthf) where
     import Relation
     
     -- |A type alias which describes graph information.
@@ -18,6 +19,14 @@ module Graph (Graph,
     -- |Returns the list of neighbours of this node.
     neighbours :: Eq a => a -> Graph a -> [a]
     neighbours x r = [b | (a, b) <- r, a == x]
+
+    -- |Returns the depth-first traversal of this graph.
+    depthf :: Eq a => a -> Graph a -> [a]
+    depthf x r = search [x] [] where
+        search [] visits = visits
+        search (x : xs) visits = search frontier (visits ++ [x]) where
+            frontier = xs ++ [x | x <- neighbours x r,
+                    x `notElem` xs && x `notElem` visits]
 
     -- |Returns the best-first traversal of this graph.
     bestf :: Eq a => (a -> Int) -> a -> Graph a -> [a]
