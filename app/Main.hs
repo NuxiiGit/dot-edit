@@ -1,14 +1,13 @@
 import Node
 import Graph
+import Pathing
 
 main :: IO ()
 main = do
     c <- getLine
-    putStrLn $ c ++ ":"
-    putStrLn $ show letters
+    putStrLn $ c
 
-letters :: Graph String
-letters = [("A", "B"), ("B", "C"), ("C", "D")]
+instance Node Int where
 
 numbers :: Graph Int
-numbers = [(1, 2), (1, 3), (3, 2), (3, 4)]
+numbers = [(1, 4), (3, 1), (3, 2), (3, 4)]
