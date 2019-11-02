@@ -1,5 +1,5 @@
 module Pathing (Trans,
-        depthf, breadthf, bestf,
+        depthf, breadthf, bestf, astar,
         traversal, path) where
     import Node
     import Graph
@@ -20,6 +20,12 @@ module Pathing (Trans,
     bestf :: (Node a) => (Trans a -> Float) -> [Trans a] -> [Trans a] -> [Trans a]
     bestf f = (\xs ys -> organise $ ys ++ xs) where
         organise = map (\(_, x) -> x) . sort . map (\x -> (f x, x))
+    
+    -- |Predicate for computing the A* traversal of a graph. A.k.a. best-first traversal with a heuristic.
+    astar :: (Node a) => [Trans a] -> [Trans a] -> [Trans a]
+    astar = bestf heuristic where
+        heuristic (Nothing, _) = 0.0
+        heuristic (Just parent, x) = parent `distance` x
 
     -- |Computes a traversal using `f` to construct the frontier in the next step.
     traversal :: (Node a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> [a]

@@ -10,7 +10,7 @@ main = do
 instance Node Int where
 
 numbers :: Graph Int
-numbers = [(1, 4), (3, 1), (3, 2), (3, 4)]
+numbers = [(3, 1), (1, 2), (2, 4), (3, 4), (3, 2)]
 
 cyclic :: Graph Int
-cyclic = [(3, 1), (1, 2), (2, 4), (3, 4)]
+cyclic = [(0, 1), (1, 2), (2, 3), (3, 4), (0, 3)]

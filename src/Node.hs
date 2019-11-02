@@ -1,4 +1,5 @@
-module Node (Node) where
+module Node (Node,
+        distance) where
 
     -- |A class which is used to detail node information.
     class (Ord a) => Node a where
