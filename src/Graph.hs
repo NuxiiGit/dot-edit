@@ -10,16 +10,16 @@ module Graph (Graph,
     type Graph a = [(a, a)]
 
     -- |Adds a new edge to the graph.
-    add :: (Node a) => (a, a) -> Graph a -> Graph a
-    add n = union [n]
+    add :: (Node a) => Graph a -> (a, a) -> Graph a
+    add r n = r `union` [n]
     
     -- |Removes a node from the graph. Any connected edges are also removed.
-    remove :: (Node a) => a -> Graph a -> Graph a
-    remove x = filter (\(a, b) -> a /= x && b /= x)
+    remove :: (Node a) => Graph a -> a -> Graph a
+    remove r x = filter (\(a, b) -> a /= x && b /= x) r
 
     -- |Computes the list of neighbours of this node.
-    neighbours :: (Node a) => a -> Graph a -> [a]
-    neighbours x r = [b | (a, b) <- r, a == x]
+    neighbours :: (Node a) => Graph a -> a -> [a]
+    neighbours r x = [b | (a, b) <- r, a == x]
 
     -- |Computes the symmetric closure of this graph.
     symmetric :: (Node a) => Graph a -> Graph a
