@@ -3,7 +3,8 @@ module Graph (Graph,
         symmetric, reflexive, transitive,
         compose, transpose,
         domain, permutation, supset, subset,
-        union, dunion, intersection, difference, set) where
+        union, dunion, intersection, difference, set)
+    where
     import Node
     
     -- |A type alias which describes graph structure.
@@ -32,8 +33,9 @@ module Graph (Graph,
     -- |Computes the transitive closure of this graph.
     transitive :: (Node a) => Graph a -> Graph a
     transitive r = if r `permutation` r'
-            then r
-            else transitive r' where 
+        then r
+        else transitive r'
+        where 
         r' = r `union` (r `compose` r)
 
     -- |Computes the composition of two graphs.
@@ -46,15 +48,17 @@ module Graph (Graph,
 
     -- |Computes the domain of this graph.
     domain :: (Node a) => Graph a -> [a]
-    domain = flatten [] where
+    domain = flatten []
+        where
         flatten xs [] = xs
-        flatten xs ((a, b) : ys) = flatten abxs ys where
+        flatten xs ((a, b) : ys) = flatten abxs ys
+            where
             bxs = if b `notElem` xs
-                    then b : xs
-                    else xs
+                then b : xs
+                else xs
             abxs = if a `notElem` bxs
-                    then a : bxs
-                    else bxs
+                then a : bxs
+                else bxs
 
     -- |Returns whether a graph is a permutation of another.
     permutation :: (Node a) => Graph a -> Graph a -> Bool
@@ -87,9 +91,11 @@ module Graph (Graph,
 
     -- |Removes duplicate elements from the graph.
     set :: (Node a) => Graph a -> Graph a
-    set = merge [] where
+    set = merge []
+        where
         merge xs [] = xs
-        merge xs (y : ys) = merge yxs ys where
+        merge xs (y : ys) = merge yxs ys
+            where
             yxs = if y `notElem` xs
-                    then (y : xs)
-                    else xs
+                then (y : xs)
+                else xs
