@@ -1,3 +1,4 @@
+-- |Provide an interface for weighted Nodes.
 module Node (Node,
         distance)
     where

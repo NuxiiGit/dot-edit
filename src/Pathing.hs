@@ -1,3 +1,4 @@
+-- |Supplies functions for traversing graphs and finding the shortest paths between nodes.
 module Pathing (Trans,
         depthf, breadthf, bestf, astar,
         traversal, path)

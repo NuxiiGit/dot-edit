@@ -1,3 +1,4 @@
+-- |Suppies functions for generating and manipulating graph structures.
 module Graph (Graph,
         add, remove, neighbours,
         symmetric, reflexive, transitive,
