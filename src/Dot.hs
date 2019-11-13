@@ -1,7 +1,7 @@
 -- |Suppies functions for importing and exporting DOT scripts.
 module Dot
     where
-    import Node
+    import Graph
 
     {- TODO:
      - Add function for loading DOT scripts.

@@ -1,12 +1,12 @@
--- |Suppies functions for generating and manipulating graph structures.
-module Graph (Graph, Edge, Node,
-        distance,
-        add, remove, neighbours,
+-- |Suppies functions for generating and manipulating graph structures. Assumes all graphs have no duplicate elements.
+module Graph (Graph, Edge,
+        {-add, remove, neighbours,
         symmetric, reflexive, transitive,
-        compose, transpose,
-        domain, permutation, supset, subset,
-        union, dunion, intersection, difference, set)
+        compose, transpose,-}
+        domain, permutation, isSup, isSub,
+        union, dunion, intersection, difference)
     where
+    import Data.List (nub, concat)
     
     -- |A type alias which describes graph structure.
     type Graph a = [Edge a]
@@ -14,6 +14,41 @@ module Graph (Graph, Edge, Node,
     -- |A type alias for transitions between two nodes.
     type Edge a = (a, a)
 
+    -- |Computes the domain of this graph.
+    domain :: (Eq a) => Graph a -> [a]
+    domain r = (nub . concat) [[a, b] | (a, b) <- r]
+
+    -- |Returns whether a graph is a permutation of another.
+    permutation :: (Eq a) => Graph a -> Graph a -> Bool
+    permutation r s = r `isSub` s && r `isSup` s
+
+    -- |Returns whether a graph is a superset of another.
+    isSup :: (Eq a) => Graph a -> Graph a -> Bool
+    isSup r s = s `isSub` r
+
+    -- |Returns whether a graph is a subset of another.
+    isSub :: (Eq a) => Graph a -> Graph a -> Bool
+    isSub r s = all (`elem` s) r
+
+    -- |Computes the union (OR) of two graphs.
+    union :: (Eq a) => Graph a -> Graph a -> Graph a
+    union r s = dunion r s ++ intersection r s
+
+    -- |Computes the symmetric difference (XOR) of two graphs.
+    dunion :: (Eq a) => Graph a -> Graph a -> Graph a
+    dunion r s = difference r s ++ difference s r
+
+    -- |Computes the intersection (AND) of two graphs.
+    intersection :: (Eq a) => Graph a -> Graph a -> Graph a
+    intersection r s = [x | x <- r, x `elem` s]
+
+    -- |Computes the set difference of two graphs.
+    difference :: (Eq a) => Graph a -> Graph a -> Graph a
+    difference r s = [x | x <- r, x `notElem` s]
+
+    ---old---
+
+    {-
     -- |Adds a new edge to the graph.
     add :: (Node a) => Graph a -> (a, a) -> Graph a
     add r n = r `union` [n]
@@ -48,58 +83,4 @@ module Graph (Graph, Edge, Node,
 
     -- |Computes the transpose of this graph.
     transpose :: (Node a) => Graph a -> Graph a
-    transpose r = [(y, x) | (x, y) <- r]
-
-    -- |Computes the domain of this graph.
-    domain :: (Node a) => Graph a -> [a]
-    domain = flatten []
-        where
-        flatten xs [] = xs
-        flatten xs ((a, b) : ys) = flatten abxs ys
-            where
-            bxs = if b `notElem` xs
-                then b : xs
-                else xs
-            abxs = if a `notElem` bxs
-                then a : bxs
-                else bxs
-
-    -- |Returns whether a graph is a permutation of another.
-    permutation :: (Node a) => Graph a -> Graph a -> Bool
-    permutation r s = r `subset` s && r `supset` s
-
-    -- |Returns whether a graph is a superset of another.
-    supset :: (Node a) => Graph a -> Graph a -> Bool
-    supset r s = s `subset` r
-
-    -- |Returns whether a graph is a subset of another.
-    subset :: (Node a) => Graph a -> Graph a -> Bool
-    subset [] _ = True
-    subset (x : xs) s = x `elem` s && subset xs s
-
-    -- |Computes the union (OR) of two graphs.
-    union :: (Node a) => Graph a -> Graph a -> Graph a
-    union r s = set $ r ++ s
-
-    -- |Computes the symmetric difference (XOR) of two graphs.
-    dunion :: (Node a) => Graph a -> Graph a -> Graph a
-    dunion r s = set [x | x <- r `union` s, x `notElem` (r `intersection` s)]
-
-    -- |Computes the intersection (AND) of two graphs.
-    intersection :: (Node a) => Graph a -> Graph a -> Graph a
-    intersection r s = set [x | x <- r, x `elem` s]
-
-    -- |Computes the set difference of two graphs.
-    difference :: (Node a) => Graph a -> Graph a -> Graph a
-    difference r s = set [x | x <- r, x `notElem` s]
-
-    -- |Removes duplicate elements from the graph.
-    set :: (Node a) => Graph a -> Graph a
-    set = merge []
-        where
-        merge xs [] = xs
-        merge xs (y : ys) = merge yxs ys
-            where
-            yxs = if y `notElem` xs
-                then (y : xs)
-                else xs
+    transpose r = [(y, x) | (x, y) <- r]-}
