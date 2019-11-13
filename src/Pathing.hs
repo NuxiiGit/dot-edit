@@ -3,12 +3,14 @@ module Pathing (Trans,
         depthf, breadthf, bestf, astar,
         traversal, path)
     where
-    import Node
     import Graph
     import Data.List (sort, find)
 
-    -- |A type alias for transitions between two elements.
-    type Trans a = (Maybe a, a)
+    -- |A class which is used to detail node information.
+    class (Ord a) => Node a
+        where
+        distance :: a -> a -> Float
+        distance _ _ = 1.0
 
     -- |Predicate for computing the depth-first traversal of a graph.
     depthf :: (Node a) => [Trans a] -> [Trans a] -> [Trans a]

@@ -1,15 +1,18 @@
 -- |Suppies functions for generating and manipulating graph structures.
-module Graph (Graph,
+module Graph (Graph, Edge, Node,
+        distance,
         add, remove, neighbours,
         symmetric, reflexive, transitive,
         compose, transpose,
         domain, permutation, supset, subset,
         union, dunion, intersection, difference, set)
     where
-    import Node
     
     -- |A type alias which describes graph structure.
-    type Graph a = [(a, a)]
+    type Graph a = [Edge a]
+
+    -- |A type alias for transitions between two nodes.
+    type Edge a = (a, a)
 
     -- |Adds a new edge to the graph.
     add :: (Node a) => Graph a -> (a, a) -> Graph a
