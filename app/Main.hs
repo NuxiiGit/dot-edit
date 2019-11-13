@@ -1,5 +1,5 @@
 import Graph
---import Pathing
+import Pathing
 
 main :: IO ()
 main = do

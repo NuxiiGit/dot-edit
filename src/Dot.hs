@@ -2,6 +2,7 @@
 module Dot
     where
     import Graph
+    import Pathing
 
     {- TODO:
      - Add function for loading DOT scripts.
