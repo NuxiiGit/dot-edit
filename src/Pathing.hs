@@ -1,42 +1,29 @@
 -- |Supplies functions for traversing graphs and finding the shortest paths between Weighteds.
-module Pathing (Weighted,
-        depthf, breadthf, bestf, astar,
+module Pathing (Trans,
+        depthf, breadthf, bestf,
         traversal, path)
     where
     import Graph
     import Data.List (sort, find)
 
-    -- |A class which is used to detail weighted edge information.
-    class Weighted a
-        where
-        distance :: a -> a -> Float
-        distance _ _ = 1.0
-
     type Trans a = (Maybe a, a)
 
     -- |Predicate for computing the depth-first traversal of a graph.
-    depthf :: (Weighted a) => [Trans a] -> [Trans a] -> [Trans a]
+    depthf :: [Trans a] -> [Trans a] -> [Trans a]
     depthf = (++)
 
     -- |Predicate for computing the breadth-first traversal of a graph.
-    breadthf :: (Weighted a) => [Trans a] -> [Trans a] -> [Trans a]
+    breadthf :: [Trans a] -> [Trans a] -> [Trans a]
     breadthf = (\xs ys -> ys ++ xs)
     
     -- |Predicate for computing best-first traversal of a graph.
-    bestf :: (Ord a, Weighted a) => (Trans a -> Float) -> [Trans a] -> [Trans a] -> [Trans a]
-    bestf f = (\xs ys -> organise $ ys ++ xs)
+    bestf :: (Ord a) => (Trans a -> Float) -> [Trans a] -> [Trans a] -> [Trans a]
+    bestf f = (\xs ys -> organise $ xs ++ ys)
         where
         organise = map (\(_, x) -> x) . sort . map (\x -> (f x, x))
-    
-    -- |Predicate for computing the A* traversal of a graph. A.k.a. best-first traversal with a heuristic.
-    astar :: (Ord a, Weighted a) => [Trans a] -> [Trans a] -> [Trans a]
-    astar = bestf heuristic
-        where
-        heuristic (Nothing, _) = 0.0
-        heuristic (Just parent, x) = parent `distance` x
 
     -- |Computes a traversal using `f` to construct the frontier in the next step.
-    traversal :: (Ord a, Weighted a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> [a]
+    traversal :: (Ord a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> [a]
     traversal f r x = search [(Nothing, x)] []
         where
         search [] visits = visits
@@ -48,7 +35,7 @@ module Pathing (Weighted,
             visited = (`elem` visits)
 
     -- |Computes the first path of a traversal using `f` to construct the frontier in the next step.
-    path :: (Ord a, Weighted a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> a -> [a]
+    path :: (Ord a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> a -> [a]
     path f r x t = search [(Nothing, x)] []
         where
         search [] _ = []
