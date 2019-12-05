@@ -1,6 +1,8 @@
 import Graph
+import Tree
 import Pathing
 import ShortestPath
+
 
 main :: IO ()
 main = do
