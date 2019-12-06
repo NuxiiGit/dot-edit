@@ -1,5 +1,5 @@
 -- |Suppies functions for generating and manipulating tree structures.
-module Tree (Tree,
+module Tree (Tree (..),
         treeify)
     where
     import Graph

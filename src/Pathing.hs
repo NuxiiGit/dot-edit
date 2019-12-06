@@ -1,54 +1,40 @@
--- |Supplies functions for traversing graphs and finding the shortest paths between Weighteds.
-module Pathing (Trans,
-        depthf, breadthf, bestf,
-        traversal, path)
+-- |Supplies functions for traversing trees and finding the shortest paths between Weighted nodes.
+module Pathing (depthf, breadthf,
+        traversal)
     where
-    import Graph
-    import Data.List (sort, find)
+    import Tree
+    import Data.List (sortBy)
 
-    type Trans a = (Maybe a, a)
-
-    -- |Predicate for computing the depth-first traversal of a graph.
-    depthf :: [Trans a] -> [Trans a] -> [Trans a]
-    depthf = (++)
-
-    -- |Predicate for computing the breadth-first traversal of a graph.
-    breadthf :: [Trans a] -> [Trans a] -> [Trans a]
-    breadthf = (\xs ys -> ys ++ xs)
-    
-    -- |Predicate for computing best-first traversal of a graph.
-    bestf :: (Ord a) => (Trans a -> Float) -> [Trans a] -> [Trans a] -> [Trans a]
-    bestf f = (\xs ys -> organise $ xs ++ ys)
+    -- |Predicate for computing the depth-first traversal of a tree.
+    depthf :: (Ord a) => [Tree a] -> [Tree a]
+    depthf = sortBy order
         where
-        organise = map (\(_, x) -> x) . sort . map (\x -> (f x, x))
+        order (Node d v _) (Node d' v' _)
+            | d < d' = GT
+            | d > d' = LT
+            | v < v' = LT
+            | v > v' = GT
+            | otherwise = EQ
 
-    -- |Computes a traversal using `f` to construct the frontier in the next step.
-    traversal :: (Ord a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> [a]
-    traversal f r x = search [(Nothing, x)] []
+    -- |Predicate for computing the breadth-first traversal of a tree.
+    breadthf :: (Ord a) => [Tree a] -> [Tree a]
+    breadthf = sortBy order
+        where
+        order (Node d v _) (Node d' v' _)
+            | d < d' = LT
+            | d > d' = GT
+            | v < v' = LT
+            | v > v' = GT
+            | otherwise = EQ
+
+    -- |Computes the best-first traversal using `f` to sort the frontier each step.
+    traversal :: (Eq a) => ([Tree a] -> [Tree a]) -> Tree a -> [a]
+    traversal f t = reverse (search [t] [])
         where
         search [] visits = visits
-        search ((_, x) : xs) visits = if visited x
-            then search xs visits
-            else search frontier (visits ++ [x])
+        search ((Node _ v neighbours) : ts) visits = if visited v
+            then search ts visits
+            else search frontier (v : visits)
             where
-            frontier = f (map (\child -> (Just x, child)) (sort $ neighbours r x)) xs
+            frontier = f (filter (\(Node _ v _) -> (not . visited) v) neighbours ++ ts)
             visited = (`elem` visits)
-
-    -- |Computes the first path of a traversal using `f` to construct the frontier in the next step.
-    path :: (Ord a) => ([Trans a] -> [Trans a] -> [Trans a]) -> Graph a -> a -> a -> [a]
-    path f r x t = search [(Nothing, x)] []
-        where
-        search [] _ = []
-        search ((parent, x) : xs) visits
-            | visited x = search xs visits
-            | x == t = reverse (x : walk parent)
-            | otherwise = search frontier ((parent, x) : visits)
-            where
-            frontier = f (map (\child -> (Just x, child)) (sort $ neighbours r x)) xs
-            visited x = any (\(_, child) -> child == x) visits
-            walk Nothing = []
-            walk (Just x) = x : walk parent
-                where
-                parent = case find (\(_, child) -> child == x) visits of
-                    Nothing -> Nothing
-                    Just (parent, _) -> parent
