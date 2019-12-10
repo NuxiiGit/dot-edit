@@ -3,6 +3,7 @@ module Dot
     where
     import Graph
     import Pathing
+    import Parser
 
     {- TODO:
      - Add function for loading DOT scripts.
