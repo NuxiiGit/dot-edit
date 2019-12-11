@@ -1,6 +1,5 @@
 -- |Supplies functions for traversing trees and finding the shortest paths between Weighted nodes.
-module Pathing (depthf, breadthf,
-        traversal)
+module Pathing (module Pathing)
     where
     import Tree
     import Data.List (sortBy)

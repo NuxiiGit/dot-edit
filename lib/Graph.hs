@@ -1,10 +1,5 @@
 -- |Suppies functions for generating and manipulating graph structures. Assumes all graphs have no duplicate elements.
-module Graph (Graph, Edge,
-        add, remove, neighbours,
-        symmetric, reflexive, transitive,
-        compose, transpose,
-        domain, permutation, isSup, isSub,
-        dunion, union, intersection, difference)
+module Graph (module Graph)
     where
     import Data.List (nub, concat)
     

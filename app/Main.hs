@@ -1,6 +1,5 @@
 import Graph
-import Tree
-import Pathing
+import Dot
 
 main :: IO ()
 main = do

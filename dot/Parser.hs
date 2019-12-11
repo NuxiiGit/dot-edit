@@ -1,5 +1,5 @@
 -- |Monadic parser.
-module Parser (Parser)
+module Parser (module Parser)
     where
     import Data.Char
     import Control.Applicative
