@@ -34,11 +34,41 @@ module Parser (module Parser)
             Nothing -> parse q input
             x -> x
 
+    -- |Parses a token.
+    token :: Parser a -> Parser a
+    token p = (whitestuff >> token p) <|> p
+
+    -- |Parses whitestuff.
+    whitestuff :: Parser ()
+    whitestuff = whitespace <|> comment <|> blockComment
+
     -- |Parses space.
     whitespace :: Parser ()
     whitespace = do
-        many (sat isSpace)
+        some (sat isSpace)
         return ()
+
+    -- |Parses comments.
+    comment :: Parser ()
+    comment = do
+        string "//"
+        many (sat (/= '\n'))
+        return ()
+
+    -- |Parses block comments.
+    blockComment :: Parser ()
+    blockComment = do
+        beginComment
+        endComment
+        where
+        beginComment = string "/*"
+        endComment = do
+            many (sat (/= '*'))
+            next
+            v <- next
+            if v == '/'
+            then return ()
+            else endComment
 
     -- |Parses a string.
     string :: String -> Parser String
@@ -46,6 +76,7 @@ module Parser (module Parser)
     string (x : xs) = do
         char x
         string xs
+        return (x : xs)
 
     -- |Parses a specific character.
     char :: Char -> Parser Char

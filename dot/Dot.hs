@@ -5,7 +5,7 @@ module Dot (module Dot)
     import Pathing
     import Parser
 
-    import Control.Applicative
+    import Control.Monad
 
     {- TODO:
      - Add function for loading DOT scripts.
@@ -20,21 +20,3 @@ module Dot (module Dot)
 
     digraph :: Parser DotGraph
     digraph = undefined
-
-    -- |Parses a token.
-    token :: Parser a -> Parser a
-    token p = do
-        whitestuff
-        v <- p
-        return v
-
-    -- |Parses whitestuff.
-    whitestuff :: Parser ()
-    whitestuff = whitespace <|> comment
-
-    -- |Parses comments.
-    comment :: Parser ()
-    comment = do
-        string "//"
-        many (sat (/= '\n'))
-        return ()
