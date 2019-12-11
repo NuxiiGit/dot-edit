@@ -34,20 +34,23 @@ module Parser (module Parser)
             Nothing -> parse q input
             x -> x
 
-    -- |Gets the first character of the input string.
-    next :: Parser Char
-    next = Parser $ \input -> case input of
-        [] -> Nothing
-        (x : xs) -> Just (x, xs)
-    
-    -- |Same as `next` except the character must satisfy some predicate `p`.
-    sat :: (Char -> Bool) -> Parser Char
-    sat p = do
-        x <- next
-        if p x
-        then return x
-        else empty
-    
+    -- |Parses space.
+    whitespace :: Parser ()
+    whitespace = do
+        many (sat isSpace)
+        return ()
+
+    -- |Parses a string.
+    string :: String -> Parser String
+    string [] = return []
+    string (x : xs) = do
+        char x
+        string xs
+
+    -- |Parses a specific character.
+    char :: Char -> Parser Char
+    char x = sat (== x)
+
     -- |Parses a digit.
     digit :: Parser Char
     digit = sat isDigit
@@ -60,19 +63,16 @@ module Parser (module Parser)
     alphanumeric :: Parser Char
     alphanumeric = sat isAlphaNum
 
-    -- |Parses a specific character.
-    char :: Char -> Parser Char
-    char x = sat (== x)
-
-    -- |Parses a string.
-    string :: String -> Parser String
-    string [] = return []
-    string (x : xs) = do
-        char x
-        string xs
+    -- |Same as `next` except the character must satisfy some predicate `p`.
+    sat :: (Char -> Bool) -> Parser Char
+    sat p = do
+        x <- next
+        if p x
+        then return x
+        else empty
     
-    -- |Parses whitespace.
-    space :: Parser ()
-    space = do
-        many (sat isSpace)
-        return ()
+    -- |Gets the first character of the input string.
+    next :: Parser Char
+    next = Parser $ \input -> case input of
+        [] -> Nothing
+        (x : xs) -> Just (x, xs)
