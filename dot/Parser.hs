@@ -1,8 +1,8 @@
 -- |Monadic parser.
 module Parser (Parser)
     where
-    import Control.Applicative
     import Data.Char
+    import Control.Applicative
 
     -- |A data structure which defines a monadic parser.
     newtype Parser a = Parser { parse :: String -> Maybe (a, String) }
