@@ -25,6 +25,15 @@ module Graph (module Graph)
     isDirected :: (Eq a) => Graph a -> Bool
     isDirected r = not $ permutation r (transpose r)
 
+    -- |Computes the left-most antisymmetric closure of this graph.
+    antisymmetric :: (Eq a) => Graph a -> Graph a
+    antisymmetric r = accumulate r []
+        where
+        accumulate [] s = s
+        accumulate (x@(a, b) : xs) s = if (b, a) `notElem` s
+            then accumulate xs (s ++ [x])
+            else accumulate xs s
+
     -- |Computes the symmetric closure of this graph.
     symmetric :: (Eq a) => Graph a -> Graph a
     symmetric r = union r (transpose r)
