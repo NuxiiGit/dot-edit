@@ -23,7 +23,7 @@ module Graph (module Graph)
 
     -- |Returns `True` if this graph is directed.
     isDirected :: (Eq a) => Graph a -> Bool
-    isDirected r = r /= transpose r
+    isDirected r = not $ permutation r (transpose r)
 
     -- |Computes the symmetric closure of this graph.
     symmetric :: (Eq a) => Graph a -> Graph a
