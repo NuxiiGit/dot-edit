@@ -22,7 +22,7 @@ module Dot (module Dot)
         body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g]
 
     -- |Writes a graph to the DOT format.
-    decode :: String -> Parser DotGraph -> DotGraph
+    decode :: String -> DotGraph
     decode xs = case parse graph xs of
         Just (g, []) -> g
         Just (_, s) -> error $ "expected EOF, got " ++ s
