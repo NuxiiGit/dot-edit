@@ -17,7 +17,9 @@ module Dot (module Dot)
 
     -- |Writes a graph to the DOT format.
     encode :: DotGraph -> String
-    encode g = undefined
+    encode g = "graph { " ++ body ++ "}"
+        where
+        body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g]
 
     -- |Writes a graph to the DOT format.
     decode :: String -> Parser DotGraph -> DotGraph
