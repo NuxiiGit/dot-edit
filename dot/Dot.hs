@@ -15,8 +15,18 @@ module Dot (module Dot)
     -- |Type alias for dot graphs.
     type DotGraph = Graph String
 
+    -- |Writes a graph to the DOT format.
+    encode :: DotGraph -> String
+    encode g = undefined
+
+    -- |Writes a graph to the DOT format.
+    decode :: String -> Parser DotGraph -> DotGraph
+    decode s p = undefined
+
+    -- |Parses an undirected graph.
     graph :: Parser DotGraph
     graph = undefined
 
-    digraph :: Parser DotGraph
-    digraph = undefined
+    -- |Parses a directed graph.
+    dirgraph :: Parser DotGraph
+    dirgraph = undefined
