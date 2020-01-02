@@ -24,8 +24,8 @@ module Dot (module Dot)
     -- |Writes a graph to the DOT format.
     decode :: String -> Parser DotGraph -> DotGraph
     decode xs = case parse graph xs of
-        Some (g, []) -> g
-        Some (_, s) -> error $ "expected EOF, got " ++ s
+        Just (g, []) -> g
+        Just (_, s) -> error $ "expected EOF, got " ++ s
         _ -> error "failed to parse graph"
 
     -- |Parses a graph.
