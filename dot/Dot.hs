@@ -17,9 +17,14 @@ module Dot (module Dot)
 
     -- |Writes a graph to the DOT format.
     encode :: DotGraph -> String
-    encode g = "graph { " ++ body ++ "}"
-        where
-        body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g]
+    encode g = if isDirected g
+        then let
+            body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g]
+            in "digraph { " ++ body ++ "}"
+        else let
+            g' = antisymmetric g
+            body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g']
+            in "graph { " ++ body ++ "}"
 
     -- |Writes a graph to the DOT format.
     decode :: String -> DotGraph
