@@ -21,6 +21,10 @@ module Graph (module Graph)
     neighbours :: (Eq a) => Graph a -> a -> [a]
     neighbours r v = [w | (u, w) <- r, u == v]
 
+    -- |Returns `True` if this graph is directed.
+    isDirected :: (Eq a) => Graph a -> Bool
+    isDirected r = r /= transpose r
+
     -- |Computes the symmetric closure of this graph.
     symmetric :: (Eq a) => Graph a -> Graph a
     symmetric r = union r (transpose r)
