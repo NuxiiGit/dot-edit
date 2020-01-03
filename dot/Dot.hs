@@ -33,6 +33,14 @@ module Dot (module Dot)
         Just (_, s) -> error $ "expected EOF, got " ++ s
         _ -> error "failed to parse graph"
 
+    -- |Parses a graph cluster.
+    cluster :: Parser DotGraph
+    cluster = graph <|> digraph
+
     -- |Parses a graph.
     graph :: Parser DotGraph
     graph = undefined
+
+    -- |Parses a directed graph.
+    digraph :: Parser DotGraph
+    digraph = undefined
