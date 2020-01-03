@@ -34,6 +34,13 @@ module Parser (module Parser)
             Nothing -> parse q input
             x -> x
 
+    -- |Parses a statement.
+    statement :: Parser a -> Parser a
+    statement p = do
+        value <- token p
+        token $ char ';'
+        return value
+
     -- |Parses a token.
     token :: Parser a -> Parser a
     token p = (whitestuff >> token p) <|> p

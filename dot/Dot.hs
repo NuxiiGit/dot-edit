@@ -42,9 +42,12 @@ module Dot (module Dot)
     graph = do
         token $ string "graph"
         token $ char '{'
+
         token $ char '}'
         return []
 
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
     digraph = undefined
+
+    
