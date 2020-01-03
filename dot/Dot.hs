@@ -42,12 +42,17 @@ module Dot (module Dot)
     graph = do
         token $ string "graph"
         token $ char '{'
-
+        edge <- statement $ expr
         token $ char '}'
-        return []
+        return [edge]
+        where
+        expr = do
+            l <- token $ string "a"
+            token $ string "--"
+            r <- token $ string "b"
+            return (l, r)
+
 
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
     digraph = undefined
-
-    
