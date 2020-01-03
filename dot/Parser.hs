@@ -38,8 +38,15 @@ module Parser (module Parser)
     statement :: Parser a -> Parser a
     statement p = do
         value <- token p
-        token $ char ';'
+        many filler
+        char ';' <|> char '\n'
         return value
+        where
+        filler = do
+            x <- sat isSpace
+            if x == '\n'
+            then empty
+            else return x
 
     -- |Just like `string`, except it ignores whitestuff.
     symbol :: String -> Parser String
