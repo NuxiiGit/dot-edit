@@ -40,16 +40,16 @@ module Dot (module Dot)
     -- |Parses a graph.
     graph :: Parser DotGraph
     graph = do
-        token $ string "graph"
-        token $ char '{'
-        edge <- statement $ expr
-        token $ char '}'
+        symbol "graph"
+        symbol "{"
+        edge <- statement expr
+        symbol "}"
         return [edge]
         where
         expr = do
-            l <- token $ string "a"
+            l <- token identifier
             token $ string "--"
-            r <- token $ string "b"
+            r <- token identifier
             return (l, r)
 
     -- |Parses a directed graph.

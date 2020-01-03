@@ -41,6 +41,10 @@ module Parser (module Parser)
         token $ char ';'
         return value
 
+    -- |Just like `string`, except it ignores whitestuff.
+    symbol :: String -> Parser String
+    symbol s = token $ string s
+
     -- |Parses a token.
     token :: Parser a -> Parser a
     token p = (whitestuff >> token p) <|> p
