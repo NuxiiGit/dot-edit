@@ -19,7 +19,7 @@ module Dot (module Dot)
     encode :: DotGraph -> String
     encode g = if isDirected g
         then let
-            body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g]
+            body = concat [a ++ " -> " ++ b ++ "; " | (a, b) <- g]
             in "digraph { " ++ body ++ "}"
         else let
             g' = antisymmetric g
