@@ -5,7 +5,7 @@ module Dot (module Dot)
     import Pathing
     import Parser
 
-    import Control.Monad
+    import Control.Applicative
 
     {- TODO:
      - Add function for loading DOT scripts.
@@ -39,7 +39,11 @@ module Dot (module Dot)
 
     -- |Parses a graph.
     graph :: Parser DotGraph
-    graph = undefined
+    graph = do
+        token $ string "graph"
+        token $ char '{'
+        token $ char '}'
+        return []
 
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
