@@ -77,6 +77,13 @@ module Parser (module Parser)
             then return ()
             else endComment
 
+    -- |Parses an identifier.
+    identifier :: Parser String
+    identifier = do
+        x <- alphabetic
+        xs <- many alphanumeric
+        return (x : xs)
+
     -- |Parses a string.
     string :: String -> Parser String
     string [] = return []
@@ -97,7 +104,7 @@ module Parser (module Parser)
     alphabetic :: Parser Char
     alphabetic = sat isAlpha
 
-    -- |Parses an alphabetic letter.
+    -- |Parses an alphanumeric letter.
     alphanumeric :: Parser Char
     alphanumeric = sat isAlphaNum
 

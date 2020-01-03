@@ -52,7 +52,6 @@ module Dot (module Dot)
             r <- token $ string "b"
             return (l, r)
 
-
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
     digraph = undefined
