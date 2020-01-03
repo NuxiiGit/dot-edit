@@ -42,11 +42,11 @@ module Dot (module Dot)
     graph = do
         symbol "graph"
         symbol "{"
-        edge <- statement expr
+        g <- some $ expression
         symbol "}"
-        return [edge]
+        return $ symmetric g
         where
-        expr = do
+        expression = statement $ do
             l <- token identifier
             token $ string "--"
             r <- token identifier
