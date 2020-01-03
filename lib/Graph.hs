@@ -12,10 +12,14 @@ module Graph (module Graph)
     -- |Adds a new edge to the graph.
     add :: (Eq a) => Graph a -> Edge a -> Graph a
     add r e = union r [e]
+
+    -- |Deletes an edge from the graph.
+    remove :: (Eq a) => Graph a -> Edge a -> Graph a
+    remove r e = [e' | e' <- r, e' /= e]
     
     -- |Removes a node from the graph. Any connected edges are also removed.
-    remove :: (Eq a) => Graph a -> a -> Graph a
-    remove r v = [(u, w) | (u, w) <- r, u /= v && w /= v]
+    deleteNode :: (Eq a) => Graph a -> a -> Graph a
+    deleteNode r v = [(u, w) | (u, w) <- r, u /= v && w /= v]
 
     -- |Computes the list of neighbours of this node.
     neighbours :: (Eq a) => Graph a -> a -> [a]
