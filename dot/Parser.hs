@@ -58,7 +58,7 @@ module Parser (module Parser)
 
     -- |Parses whitestuff.
     whitestuff :: Parser ()
-    whitestuff = whitespace <|> comment <|> blockComment
+    whitestuff = whitespace <|> comment <|> directive <|> blockComment
 
     -- |Parses space.
     whitespace :: Parser ()
@@ -87,6 +87,13 @@ module Parser (module Parser)
             if v == '/'
             then return ()
             else endComment
+
+    -- |Parses pre-processor directives.
+    directive :: Parser ()
+    directive = do
+        char '#'
+        many (sat (/= '\n'))
+        return ()
 
     -- |Parses an identifier.
     identifier :: Parser String
