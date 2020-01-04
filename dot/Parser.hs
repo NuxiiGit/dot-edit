@@ -39,7 +39,7 @@ module Parser (module Parser)
     statement p = do
         value <- token p
         many filler
-        char ';' <|> char '\n'
+        char ';' <|> char ',' <|> char '\n'
         return value
         where
         filler = do
