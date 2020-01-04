@@ -54,4 +54,15 @@ module Dot (module Dot)
 
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
-    digraph = undefined
+    digraph = do
+        symbol "digraph"
+        symbol "{"
+        g <- some $ statement relation
+        symbol "}"
+        return g
+        where
+        relation = do
+            l <- token identifier
+            token $ string "->"
+            r <- token identifier
+            return (l, r)
