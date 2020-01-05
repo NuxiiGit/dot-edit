@@ -28,14 +28,10 @@ module Dot (module Dot)
 
     -- |Writes a graph to the DOT format.
     decode :: String -> DotGraph
-    decode xs = case parse graph xs of
+    decode xs = case parse (graph <|> digraph) xs of
         Just (g, []) -> g
         Just (_, s) -> error $ "expected EOF, got " ++ s
         _ -> error "failed to parse graph"
-
-    -- |Parses a graph cluster.
-    cluster :: Parser DotGraph
-    cluster = graph <|> digraph
 
     -- |Parses a graph.
     graph :: Parser DotGraph
@@ -45,7 +41,6 @@ module Dot (module Dot)
         gs <- some $ statement $ path "--"
         symbol "}"
         return $ symmetric $ concat gs
-        where
 
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
