@@ -9,6 +9,11 @@ module Graph (module Graph)
     -- |A type alias for transitions between two nodes.
     type Edge a = (a, a)
 
+    -- |Generates a graph from a path.
+    graphify :: [a] -> Graph a
+    graphify (x : xs@(x' : _)) = (x, x') : graphify xs
+    graphify _ = []
+
     -- |Adds a new edge to the graph.
     add :: (Eq a) => Graph a -> Edge a -> Graph a
     add r e = union r [e]
