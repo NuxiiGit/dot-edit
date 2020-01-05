@@ -38,7 +38,7 @@ module Dot (module Dot)
     graph = do
         symbol "graph"
         symbol "{"
-        gs <- some $ statement $ path "--"
+        gs <- some $ statement $ subgraph "--"
         symbol "}"
         return $ symmetric $ concat gs
 
@@ -47,13 +47,27 @@ module Dot (module Dot)
     digraph = do
         symbol "digraph"
         symbol "{"
-        gs <- some $ statement $ path "->"
+        gs <- some $ statement $ subgraph "->"
         symbol "}"
         return $ concat gs
 
-    -- |Parses a path of idenifiers into a simple sub-graph.
-    path :: String -> Parser (Graph String)
+    -- |Parses a subgraph.
+    subgraph :: String -> Parser DotGraph
+    subgraph separator = cluster separator <|> path separator
+
+    -- |Parses a path of idenifiers into a simple subgraph.
+    path :: String -> Parser DotGraph
     path separator = do
         x <- token identifier
         xs <- many $ symbol separator >> token identifier
         return $ graphify $ x : xs
+
+    -- |Parses a cluster of identifiers into a simple tree-style subgraph.
+    cluster :: String -> Parser DotGraph
+    cluster separator = do
+        x <- token identifier
+        symbol separator
+        symbol "{"
+        xs <- many $ token identifier
+        symbol "}"
+        return [(x, x') | x' <- xs]
