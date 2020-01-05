@@ -42,25 +42,23 @@ module Dot (module Dot)
     graph = do
         symbol "graph"
         symbol "{"
-        gs <- some $ statement path
+        gs <- some $ statement $ path "--"
         symbol "}"
         return $ symmetric $ concat gs
         where
-        path = do
-            x <- token identifier
-            xs <- many $ symbol "--" >> token identifier
-            return $ graphify $ x : xs
 
     -- |Parses a directed graph.
     digraph :: Parser DotGraph
     digraph = do
         symbol "digraph"
         symbol "{"
-        gs <- some $ statement path
+        gs <- some $ statement $ path "->"
         symbol "}"
         return $ concat gs
-        where
-        path = do
-            x <- token identifier
-            xs <- many $ symbol "->" >> token identifier
-            return $ graphify $ x : xs
+
+    -- |Parses a path of idenifiers into a simple sub-graph.
+    path :: String -> Parser (Graph String)
+    path separator = do
+        x <- token identifier
+        xs <- many $ symbol separator >> token identifier
+        return $ graphify $ x : xs
