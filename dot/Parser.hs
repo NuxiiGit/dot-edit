@@ -63,14 +63,14 @@ module Parser (module Parser)
     -- |Parses space.
     whitespace :: Parser ()
     whitespace = do
-        some (sat isSpace)
+        some $ sat isSpace
         return ()
 
     -- |Parses comments.
     comment :: Parser ()
     comment = do
         string "//"
-        many (sat (/= '\n'))
+        many $ sat (/= '\n')
         return ()
 
     -- |Parses block comments.
@@ -81,7 +81,7 @@ module Parser (module Parser)
         where
         beginComment = string "/*"
         endComment = do
-            many (sat (/= '*'))
+            many $ sat (/= '*')
             next
             v <- next
             if v == '/'
@@ -92,7 +92,7 @@ module Parser (module Parser)
     directive :: Parser ()
     directive = do
         char '#'
-        many (sat (/= '\n'))
+        many $ sat (/= '\n')
         return ()
 
     -- |Parses an identifier.

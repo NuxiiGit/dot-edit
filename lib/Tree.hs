@@ -11,4 +11,4 @@ module Tree (module Tree)
     treeify :: (Eq a) => Graph a -> a -> Tree a
     treeify r v = make r v 0
         where
-        make r v depth = Node depth v [make r v' (succ depth) | v' <- neighbours r v]
+        make r v depth = Node depth v [make r v' $ succ depth | v' <- neighbours r v]

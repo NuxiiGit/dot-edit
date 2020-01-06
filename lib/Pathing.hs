@@ -28,12 +28,12 @@ module Pathing (module Pathing)
 
     -- |Computes the best-first traversal using `f` to sort the frontier each step.
     traversal :: (Eq a) => ([Tree a] -> [Tree a]) -> Tree a -> [a]
-    traversal f t = reverse (search [t] [])
+    traversal f t = reverse $ search [t] []
         where
         search [] visits = visits
-        search ((Node _ v neighbours) : ts) visits = if visited v
+        search (Node _ v neighbours : ts) visits = if visited v
             then search ts visits
-            else search frontier (v : visits)
+            else search frontier $ v : visits
             where
-            frontier = f (filter (\(Node _ v _) -> (not . visited) v) neighbours ++ ts)
+            frontier = f $ filter (\(Node _ v _) -> not . visited $ v) neighbours ++ ts
             visited = (`elem` visits)
