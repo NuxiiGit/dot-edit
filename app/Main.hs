@@ -3,18 +3,18 @@ import Dot
 
 import System.IO
 import System.Directory
+import System.FilePath
+import System.Environment
 import Control.Monad
 
 main :: IO ()
 main = do
-    context <- readFile "resources/test.txt"
-    let dir = "bin/graphs/"
+    source : _ <- getArgs
+    putStrLn $ "reading from source file '" ++ source ++ "'"
+    context <- readFile source
+    let g = decode context
+    let dir = "bin/graph/"
+    let dest = dir ++ takeFileName source
+    putStrLn $ "writing to destination file '" ++ dest ++ "'"
     createDirectoryIfMissing True dir
-    writeFile (dir ++ "graph.dot") context
-
-
-numbers :: Graph Int
-numbers = [(3, 1), (0, 2), (2, 4), (3, 4), (3, 0)]
-
-cyclic :: Graph Int
-cyclic = [(0, 1), (1, 2), (2, 3), (3, 4), (0, 3)]
+    writeFile dest $ encode g
