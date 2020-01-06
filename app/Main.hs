@@ -13,6 +13,7 @@ main = do
     putStrLn $ "reading from source file '" ++ source ++ "'"
     context <- readFile source
     let g = decode context
+    putStrLn $ "graph:\n" ++ show g
     let dir = "bin/graph/"
     let dest = dir ++ takeFileName source
     putStrLn $ "writing to destination file '" ++ dest ++ "'"
