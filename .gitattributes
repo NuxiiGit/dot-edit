@@ -1,0 +1,4 @@
+# we're using windows line endings
+*.hs text eol=crlf
+*.dot text eol=crlf
+*.bat text eol=crlfs
