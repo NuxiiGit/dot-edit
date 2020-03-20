@@ -11,15 +11,15 @@ module Parser (module Parser)
         where
         fmap f p = Parser $ \input -> do
             (v, output) <- parse p input
-            Just (f v, output)
+            return (f v, output)
 
     instance Applicative Parser
         where
-        pure v = Parser $ \input -> Just (v, input)
+        pure v = Parser $ \input -> return (v, input)
         pf <*> pv = Parser $ \input -> do
             (f, input') <- parse pf input
             (v, output) <- parse pv input'
-            Just (f v, output)
+            return (f v, output)
 
     instance Monad Parser
         where
