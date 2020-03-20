@@ -6,8 +6,8 @@ if %alias% == "" (
 )
 :: compile
 ghc -o %alias% ^
-        -idirs;lib;dot ^
+        -idirs;lib_core;lib_dot ^
         -odir bin/obj ^
         -hidir bin/interface ^
         --make ^
-        app/Main.hs
+        src/Main.hs
