@@ -6,6 +6,12 @@ Graphs are stored as binary relations between nodes.
 
 ## Features
 
-The `Graph` module includes functions for manipulating graphs and/or taking the symmetric, reflexive, and transitive closures of those graphs.
+The `lib_core` directory includes the following modules:
+ - `Graph`: includes functions for manipulating graphs and/or taking the symmetric, reflexive, and transitive closures of those graphs.
+ - `Tree`: converts graphs into infinite trees.
+ - `Pathing`: includes functions for finding the depth-first, breadth-first, best-first, *and* A* traversals of a graph.
 
-The `Pathing` module includes functions for finding the depth-first, breadth-first, best-first, *and* A* traversals of a graph. You can use either `traversal` to traverse the entire graph or `path` to find the *first* occurence of a path between two nodes (not necessarily the shortest path).
+The `lib_dot` directory includes the following modules:
+ - `Dot`: includes functions for importing and/or exporting DOT scripts as valid graphs which can be used by `lib_core`.
+ - `Parser`: monadic recursive descent parser.
+
