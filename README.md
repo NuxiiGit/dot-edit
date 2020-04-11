@@ -1,8 +1,12 @@
 # A* Pathfinding
 
-This repository contains the source code for `hay-star`; a work-in-progress application written in Haskell for graphing and path finding.
+This repository contains the source code for `hay-star`, a work-in-progress application written in Haskell for graphing and path finding.
 
 Graphs are stored as binary relations between nodes.
+
+## How Graphs are Stored
+
+Graphs are stored using very basic DOT scripts. Storing additional metadata will probably not be implemented any time soon.
 
 ## Features
 
