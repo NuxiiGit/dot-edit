@@ -9,13 +9,16 @@ import Control.Monad
 
 main :: IO ()
 main = do
-    source : _ <- getArgs
-    putStrLn $ "reading from source file '" ++ source ++ "'"
-    context <- readFile source
-    let g = decode context
-    putStrLn $ "graph:\n" ++ show g
-    let dir = "bin/graph/"
-    let dest = dir ++ takeFileName source
-    putStrLn $ "writing to destination file '" ++ dest ++ "'"
-    createDirectoryIfMissing True dir
-    writeFile dest $ encode g
+    args <- getArgs
+    case args of
+        source : _ -> do
+            putStrLn $ "reading from source file '" ++ source ++ "'"
+            context <- readFile source
+            let g = decode context
+            putStrLn $ "graph:\n" ++ show g
+            let dir = "bin/graph/"
+            let dest = dir ++ takeFileName source
+            putStrLn $ "writing to destination file '" ++ dest ++ "'"
+            createDirectoryIfMissing True dir
+            writeFile dest $ encode g
+        [] -> putStrLn "please supply a source file"
