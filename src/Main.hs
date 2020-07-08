@@ -11,14 +11,21 @@ main :: IO ()
 main = do
     args <- getArgs
     case args of
-        source : _ -> do
-            putStrLn $ "reading from source file '" ++ source ++ "'"
-            context <- readFile source
-            let g = decode context
-            putStrLn $ "graph:\n" ++ show g
-            let dir = "bin/graph/"
-            let dest = dir ++ takeFileName source
-            putStrLn $ "writing to destination file '" ++ dest ++ "'"
-            createDirectoryIfMissing True dir
-            writeFile dest $ encode g
-        [] -> putStrLn "please supply a source file"
+        source : dest : args -> do
+            g <- readGraph source
+            writeGraph dest g
+        _ -> putStrLn "please supply a source and destination path"
+
+readGraph :: String -> IO (Graph String)
+readGraph path = do
+    putStrLn $ "attempting to read DOT script from path: " ++ path
+    context <- readFile path
+    let g = decode context
+    putStrLn $ "graph:\n" ++ show g
+    return g
+
+writeGraph :: String -> Graph String -> IO ()
+writeGraph path g = do
+    putStrLn $ "writing to destination file '" ++ path ++ "'"
+    createDirectoryIfMissing True $ dropFileName path
+    writeFile path $ encode g
