@@ -14,7 +14,7 @@ main = do
     case args of
         source : dest : args -> do
             g <- readGraph source
-            let g' = modifyGraph args g
+            let g' = foldl modifyGraph g args
             writeGraph dest $! g'
         _ -> putStrLn "please supply a source and destination path"
 
@@ -30,12 +30,10 @@ writeGraph path g = do
     createDirectoryIfMissing True $ dropFileName path
     writeFile path $ encode g
 
-modifyGraph :: [String] -> DotGraph -> DotGraph
-modifyGraph commands g = applyCommand (head commands)
-    where
-    applyCommand command = case split ':' command of
-        "symmetric" : [] -> symmetric g
-        _ -> error $ "invalid graph modifier - " ++ show command
+modifyGraph :: DotGraph -> String -> DotGraph
+modifyGraph g command = case split ':' command of
+    "symmetric" : [] -> symmetric g
+    _ -> error $ "invalid graph modifier - " ++ show command
 
 split :: (Eq a) => a -> [a] -> [[a]]
 split _ [] = []
