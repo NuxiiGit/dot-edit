@@ -37,7 +37,8 @@ modifyGraph g command = case split ':' command of
     "reflexive" : [] -> reflexive g
     "transitive" : [] -> transitive g
     "transpose" : [] -> transpose g
-    _ -> error $ "invalid graph modifier - " ++ show command
+    "add-edge" : a : b : [] -> add g (a, b)
+    x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 split :: (Eq a) => a -> [a] -> [[a]]
 split _ [] = []
