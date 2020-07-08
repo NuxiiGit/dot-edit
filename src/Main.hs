@@ -20,7 +20,7 @@ main = do
 
 readGraph :: String -> IO DotGraph
 readGraph path = do
-    putStrLn $ "attempting to read DOT script from path: " ++ path
+    putStrLn $ "attempting to read DOT script from path - " ++ show path
     context <- readFile path
     let g = decode context
     putStrLn $ "graph:\n" ++ show g
@@ -28,14 +28,14 @@ readGraph path = do
 
 writeGraph :: String -> DotGraph -> IO ()
 writeGraph path g = do
-    putStrLn $ "writing to destination file '" ++ path ++ "'"
+    putStrLn $ "writing to destination file - " ++ show path
     createDirectoryIfMissing True $ dropFileName path
     writeFile path $ encode g
 
 modifyGraph :: String -> DotGraph -> DotGraph
 modifyGraph command g = case split ':' command of
     "symmetric" : [] -> symmetric g
-    x -> error $ "invalid graph modifier: '" ++ show x ++ "'"
+    _ -> error $ "invalid graph modifier - " ++ show command
 
 split :: (Eq a) => a -> [a] -> [[a]]
 split _ [] = []
