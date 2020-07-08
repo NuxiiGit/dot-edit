@@ -34,8 +34,8 @@ writeGraph path g = do
 
 modifyGraph :: String -> DotGraph -> DotGraph
 modifyGraph command g = case split ':' command of
-    "symmetric" : _ -> symmetric g
-    _ -> g
+    "symmetric" : [] -> symmetric g
+    x -> error $ "invalid graph modifier: '" ++ show x ++ "'"
 
 split :: (Eq a) => a -> [a] -> [[a]]
 split _ [] = []
