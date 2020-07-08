@@ -34,6 +34,8 @@ modifyGraph :: DotGraph -> String -> DotGraph
 modifyGraph g command = case split ':' command of
     "symmetric" : [] -> symmetric g
     "reflexive" : [] -> reflexive g
+    "transitive" : [] -> transitive g
+    "transpose" : [] -> transpose g
     _ -> error $ "invalid graph modifier - " ++ show command
 
 split :: (Eq a) => a -> [a] -> [[a]]
