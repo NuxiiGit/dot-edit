@@ -33,6 +33,7 @@ writeGraph path g = do
 modifyGraph :: DotGraph -> String -> DotGraph
 modifyGraph g command = case split ':' command of
     "symmetric" : [] -> symmetric g
+    "antisymmetric" : [] -> antisymmetric g
     "reflexive" : [] -> reflexive g
     "transitive" : [] -> transitive g
     "transpose" : [] -> transpose g
