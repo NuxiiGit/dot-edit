@@ -38,6 +38,7 @@ modifyGraph g command = case split ':' command of
     "transitive" : [] -> transitive g
     "transpose" : [] -> transpose g
     "add-edge" : a : b : [] -> add g (a, b)
+    "del-edge" : a : b : [] -> remove g (a, b)
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 split :: (Eq a) => a -> [a] -> [[a]]
