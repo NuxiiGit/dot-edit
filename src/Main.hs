@@ -15,16 +15,14 @@ main = do
         source : dest : args -> do
             g <- readGraph source
             let g' = modifyGraph (head args) g
-            writeGraph dest g'
+            writeGraph dest $! g'
         _ -> putStrLn "please supply a source and destination path"
 
 readGraph :: String -> IO DotGraph
 readGraph path = do
     putStrLn $ "attempting to read DOT script from path - " ++ show path
     context <- readFile path
-    let g = decode context
-    putStrLn $ "graph:\n" ++ show g
-    return g
+    return $ decode context
 
 writeGraph :: String -> DotGraph -> IO ()
 writeGraph path g = do
