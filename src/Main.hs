@@ -12,10 +12,16 @@ main :: IO ()
 main = do
     args <- getArgs
     case args of
-        source : dest : args -> do
+        source : _ -> do
+            sourceIsFile <- doesFileExist source
+            destExists <- doesFileExist $ head args
+            let modifiers = if destExists
+                then tail args
+                else args
             g <- readGraph source
-            let g' = foldl modifyGraph g args
-            writeGraph dest $! g'
+            let g' = foldl modifyGraph g modifiers
+            putStrLn $ encode g'
+            --writeGraph dest $! g'
         _ -> putStrLn "please supply a source and destination path"
 
 readGraph :: String -> IO DotGraph
