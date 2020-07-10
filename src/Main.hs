@@ -12,15 +12,16 @@ main :: IO ()
 main = do
     args <- getArgs
     case args of
-        source : _ -> do
+        source : args -> do
             sourceIsFile <- doesFileExist source
-            destExists <- doesFileExist $ head args
+            destExists <- (not . null $ args) && doesFileExist (head args)
             let modifiers = if destExists
                 then tail args
                 else args
             g <- readGraph source
             let g' = foldl modifyGraph g modifiers
             putStrLn $ encode g'
+            putStrLn $ show destExists
             --writeGraph dest $! g'
         _ -> putStrLn "please supply a source and destination path"
 
