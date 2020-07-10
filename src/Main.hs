@@ -14,14 +14,18 @@ main = do
     case args of
         source : args -> do
             sourceIsFile <- doesFileExist source
-            destExists <- (not . null $ args) && doesFileExist (head args)
-            let modifiers = if destExists
-                then tail args
-                else args
+            (dest, modifiers) <- if not . null $ args
+                then do
+                    let dest = head args
+                    destExists <- doesFileExist dest
+                    if destExists
+                    then return (dest, tail args)
+                    else return ("", args)
+                else return ("", args)
             g <- readGraph source
             let g' = foldl modifyGraph g modifiers
             putStrLn $ encode g'
-            putStrLn $ show destExists
+            putStrLn $ show dest
             --writeGraph dest $! g'
         _ -> putStrLn "please supply a source and destination path"
 
