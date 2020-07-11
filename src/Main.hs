@@ -17,11 +17,13 @@ main = do
             destExists <- if not . null $ args
                 then doesFileExist $ head args
                 else return False
-            g <- readGraph source
-            let g' = foldl modifyGraph g args
-            putStrLn $ encode g'
+            context <- if sourceIsFile
+                then readFile source
+                else return source
+            let g = foldl modifyGraph (decode context) args
+            putStrLn $ encode g
             putStrLn $ show destExists
-            --writeGraph dest $! g'
+            --writeGraph dest $! g
         _ -> putStrLn "please supply a source and destination path"
 
 readGraph :: String -> IO DotGraph
