@@ -14,25 +14,13 @@ main = do
     case args of
         source : args -> do
             sourceIsFile <- doesFileExist source
-            destExists <- if not . null $ args
-                then doesFileExist $ head args
-                else return False
             context <- if sourceIsFile
                 then readFile source
                 else return source
-            let (dest, modifiers) = if destExists
-                then (Just $ head args, tail args)
-                else (Nothing, args)
-            let g = foldl modifyGraph (decode context) modifiers
+            let g = foldl modifyGraph (decode context) args
             putStrLn $ encode g
             --writeGraph dest $! g
         _ -> putStrLn "please supply a source and destination path"
-
-writeGraph :: String -> DotGraph -> IO ()
-writeGraph path g = do
-    putStrLn $ "writing to destination file - " ++ show path
-    createDirectoryIfMissing True $ dropFileName path
-    writeFile path $ encode g
 
 modifyGraph :: DotGraph -> String -> DotGraph
 modifyGraph g command = case split ':' command of
