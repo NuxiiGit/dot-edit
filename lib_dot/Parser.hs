@@ -58,12 +58,18 @@ module Parser (module Parser)
 
     -- |Parses whitestuff.
     whitestuff :: Parser ()
-    whitestuff = whitespace <|> comment <|> directive <|> blockComment
+    whitestuff = whitespace <|> comment <|> directive <|> blockComment <|> statementSeparator
 
     -- |Parses space.
     whitespace :: Parser ()
     whitespace = do
         some $ sat isSpace
+        return ()
+
+    -- |Parses a statement end.
+    statementSeparator :: Parser ()
+    statementSeparator = do
+        char ';' <|> char ','
         return ()
 
     -- |Parses comments.
