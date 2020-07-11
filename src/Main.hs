@@ -20,17 +20,13 @@ main = do
             context <- if sourceIsFile
                 then readFile source
                 else return source
-            let g = foldl modifyGraph (decode context) args
+            let (dest, modifiers) = if destExists
+                then (Just $ head args, tail args)
+                else (Nothing, args)
+            let g = foldl modifyGraph (decode context) modifiers
             putStrLn $ encode g
-            putStrLn $ show destExists
             --writeGraph dest $! g
         _ -> putStrLn "please supply a source and destination path"
-
-readGraph :: String -> IO DotGraph
-readGraph path = do
-    putStrLn $ "attempting to read DOT script from path - " ++ show path
-    context <- readFile path
-    return $ decode context
 
 writeGraph :: String -> DotGraph -> IO ()
 writeGraph path g = do
