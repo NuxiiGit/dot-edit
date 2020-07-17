@@ -5,11 +5,22 @@ module Pathing (module Pathing)
     import Data.List (sortBy)
 
     -- |Represents a graph node paired with its depth.
-    type Node a = (Int, a)
+    type Candidate a = (Int, a)
+
+    -- |A data structure which recursively defines a tree.
+    data Tree a = Node (Candidate a) [Tree a]
+        deriving Show
+
+    -- |Converts the graph into a tree, using `v` as the root node.
+    treeify :: (Eq a) => Graph a -> a -> Tree a
+    treeify r v = make r v 0
+        where
+        make r v depth = Node (depth, v) [make r v' $ succ depth | v' <- neighbours r v]
 
     -- |Computes the best-first traversal of a graph, using `f` to sort the frontier each step.
-    traverse :: (Node a -> Node a -> Ordering) -> Graph a -> [Node a]
+    traverse :: (Eq a) => (Candidate a -> Candidate a -> Ordering) -> Graph a -> Graph a
     traverse f r = undefined
+
 {-
     -- |Predicate for computing the depth-first traversal of a tree.
     depthf :: (Ord a) => [Tree a] -> [Tree a]
