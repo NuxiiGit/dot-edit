@@ -1,9 +1,16 @@
 -- |Supplies functions for traversing trees and finding the shortest paths between Weighted nodes.
 module Pathing (module Pathing)
     where
-    import Tree
+    import Graph
     import Data.List (sortBy)
 
+    -- |Represents a graph node paired with its depth.
+    type Node a = (Int, a)
+
+    -- |Computes the best-first traversal of a graph, using `f` to sort the frontier each step.
+    traverse :: (Node a -> Node a -> Ordering) -> Graph a -> [Node a]
+    traverse f r = undefined
+{-
     -- |Predicate for computing the depth-first traversal of a tree.
     depthf :: (Ord a) => [Tree a] -> [Tree a]
     depthf = sortBy order
@@ -37,3 +44,4 @@ module Pathing (module Pathing)
             where
             frontier = f $ filter (\(Node _ v _) -> not . visited $ v) neighbours ++ ts
             visited = (`elem` visits)
+-}
