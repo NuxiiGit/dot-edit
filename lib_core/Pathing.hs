@@ -5,15 +5,15 @@ module Pathing (module Pathing)
     import Data.List (sortBy)
 
     -- |Computes the best-first traversal of a graph, using `f` to sort the frontier each step.
-    bestFirst :: (Eq a) => (a -> a -> Ordering) -> Graph a -> a -> [a]
-    bestFirst order r root = search [root] []
+    bestFirst :: (Eq a) => (Edge a -> Edge a -> Ordering) -> Graph a -> a -> [Edge a]
+    bestFirst order r root = reverse $ search (sortBy order $ branches r root) []
         where
         search [] visits = visits
-        search (v : vs) visits = if v `elem` visits
-            then search vs visits
-            else search frontier (v : visits)
+        search (e : es) visits = if e `elem` visits
+            then search es visits
+            else search frontier (e : visits)
             where
-            frontier = sortBy order (vs ++ neighbours r v)
+            frontier = sortBy order (es ++ branches r (snd e))
 
 {-
     -- |Predicate for computing the depth-first traversal of a tree.
