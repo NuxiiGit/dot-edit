@@ -26,6 +26,10 @@ module Graph (module Graph)
     deleteNode :: (Eq a) => Graph a -> a -> Graph a
     deleteNode r v = [(u, w) | (u, w) <- r, u /= v && w /= v]
 
+    -- |Computes a list of edges for this node.
+    branches :: (Eq a) => Graph a -> a -> [Edge a]
+    branches r v = map (\x -> (v, x)) (neighbours r v)
+
     -- |Computes the list of neighbours of this node.
     neighbours :: (Eq a) => Graph a -> a -> [a]
     neighbours r v = [w | (u, w) <- r, u == v]
