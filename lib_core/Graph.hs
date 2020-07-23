@@ -14,6 +14,10 @@ module Graph (module Graph)
     graphify (x : xs@(x' : _)) = (x, x') : graphify xs
     graphify _ = []
 
+    -- |Marks each node of this graph with its depth.
+    treeify :: (Eq a) => Graph a -> a -> Graph (Int, a)
+    treeify r v = undefined
+
     -- |Adds a new edge to the graph.
     add :: (Eq a) => Graph a -> Edge a -> Graph a
     add r e = union r [e]
@@ -21,7 +25,7 @@ module Graph (module Graph)
     -- |Deletes an edge from the graph.
     remove :: (Eq a) => Graph a -> Edge a -> Graph a
     remove r e = [e' | e' <- r, e' /= e]
-    
+
     -- |Removes a node from the graph. Any connected edges are also removed.
     deleteNode :: (Eq a) => Graph a -> a -> Graph a
     deleteNode r v = [(u, w) | (u, w) <- r, u /= v && w /= v]
