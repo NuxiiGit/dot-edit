@@ -4,9 +4,13 @@ module Pathing (module Pathing)
     import Graph
     import Data.List (sortBy)
 
+    -- |Computes the depth-first traversal of a graph.
+    depthFirst :: (Ord a) => Graph a -> a -> Graph a
+    depthFirst = traversal (\old new -> sort new ++ old)
+
     -- |Computes the best-first traversal of a graph.
     bestFirst :: (Ord a) => Graph a -> a -> Graph a
-    bestFirst = traversal (\xs ys -> prioritise $ xs ++ ys)
+    bestFirst = traversal (\old new -> prioritise $ old ++ new)
         where
         prioritise = sortBy $ \x y -> compare (snd x) (snd y)
 
