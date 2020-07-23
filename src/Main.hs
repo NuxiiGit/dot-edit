@@ -11,7 +11,7 @@ import Control.Monad
 
 main :: IO ()
 main = do
-    putStrLn $ show $ bestFirst (\(_, x) (_, y) -> if x > y then GT else if x < y then LT else EQ) [(1, 2), (2, 3), (1, 4), (3, 4)] 1
+    putStrLn $ show $ bestFirst [(1, 2), (2, 3), (1, 4), (3, 4)] 1
     args <- getArgs
     case args of
         source : args -> do
