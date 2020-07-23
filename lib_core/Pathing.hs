@@ -6,15 +6,9 @@ module Pathing (module Pathing)
 
     -- |Computes the best-first traversal of a graph.
     bestFirst :: (Ord a) => Graph a -> a -> Graph a
-    bestFirst r root = search (prioritise $ branches r root) []
+    bestFirst = traversal (\xs ys -> prioritise $ xs ++ ys)
         where
         prioritise = sortBy $ \x y -> compare (snd x) (snd y)
-        search [] visits = reverse visits
-        search (e : es) visits = if any (\x -> snd x == snd e) visits
-            then search es visits
-            else search frontier (e : visits)
-            where
-            frontier = prioritise $ es ++ branches r (snd e)
 
     -- |Computes the traversal of a graph, where `f` details how to concatenate the current and new frontiers.
     traversal :: (Eq a) => (Graph a -> Graph a -> Graph a) -> Graph a -> a -> Graph a
