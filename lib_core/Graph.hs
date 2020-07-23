@@ -2,7 +2,7 @@
 module Graph (module Graph)
     where
     import Data.List (nub, concat)
-    
+
     -- |A type alias which describes graph structure.
     type Graph a = [Edge a]
 
@@ -13,10 +13,6 @@ module Graph (module Graph)
     graphify :: [a] -> Graph a
     graphify (x : xs@(x' : _)) = (x, x') : graphify xs
     graphify _ = []
-
-    -- |Marks each node of this graph with its depth.
-    treeify :: (Eq a) => Graph a -> a -> Graph (Int, a)
-    treeify r v = undefined
 
     -- |Adds a new edge to the graph.
     add :: (Eq a) => Graph a -> Edge a -> Graph a

@@ -4,8 +4,8 @@ module Pathing (module Pathing)
     import Graph
     import Data.List (sortBy)
 
-    -- |Computes the best-first traversal of a graph, using `f` to sort the frontier each step.
-    bestFirst :: (Eq a) => (Edge a -> Edge a -> Ordering) -> Graph a -> a -> [Edge a]
+    -- |Computes the best-first traversal of a graph.
+    bestFirst :: (Eq a) => (Edge a -> Edge a -> Ordering) -> Graph a -> a -> Graph a
     bestFirst order r root = reverse $ search (sortBy order $ branches r root) []
         where
         search [] visits = visits
