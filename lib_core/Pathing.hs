@@ -9,6 +9,7 @@ module Pathing (module Pathing)
     depthFirst = traversal (\old new -> sort new ++ old)
 
     -- |Computes the breadth-first traversal of a graph.
+    breadthFirst :: (Ord a) => Graph a -> a -> Graph a
     breadthFirst = traversal (\old new -> old ++ sort new)
 
     -- |Computes the best-first traversal of a graph.
