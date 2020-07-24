@@ -48,6 +48,7 @@ modifyGraph g command = case split ':' command of
     "difference" : s : [] -> let h = unwrap $ decode s in difference g h
     "compose" : s : [] -> let h = unwrap $ decode s in compose g h
     "equivalence" : [] -> transitive $ reflexive $ symmetric g
+    "order" : [] -> transitive $ antisymmetric g
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 unwrap :: Maybe DotGraph -> DotGraph
