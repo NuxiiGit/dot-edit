@@ -103,14 +103,21 @@ module Parser (module Parser)
 
     -- |Parses an identifier.
     identifier :: Parser String
-    identifier = graphic
+    identifier = graphic <|> numeral
 
-    -- |Parses a graphic.
+    -- |Parses a graphic identifier.
     graphic :: Parser String
     graphic = do
         x <- alphabetic
         xs <- many alphanumeric
         return $ x : xs
+
+    -- |Parses a numeral identifier.
+    numeral :: Parser String
+    numeral = do
+        sign <- many $ char '-'
+        digits <- some $ digit
+        return $ sign ++ digits
 
     -- |Parses a string.
     string :: String -> Parser String
@@ -124,17 +131,17 @@ module Parser (module Parser)
     char :: Char -> Parser Char
     char x = sat (== x)
 
+    -- |Parses an alphanumeric letter.
+    alphanumeric :: Parser Char
+    alphanumeric = alphabetic <|> digit
+
     -- |Parses a digit.
     digit :: Parser Char
     digit = sat isDigit
 
     -- |Parses an alphabetic letter.
     alphabetic :: Parser Char
-    alphabetic = sat isAlpha
-
-    -- |Parses an alphanumeric letter.
-    alphanumeric :: Parser Char
-    alphanumeric = sat isAlphaNum
+    alphabetic = sat (\x -> isAlpha x || x == '_')
 
     -- |Same as `next` except the character must satisfy some predicate `p`.
     sat :: (Char -> Bool) -> Parser Char
@@ -143,7 +150,7 @@ module Parser (module Parser)
         if p x
         then return x
         else empty
-    
+
     -- |Gets the first character of the input string.
     next :: Parser Char
     next = Parser $ \input -> case input of
