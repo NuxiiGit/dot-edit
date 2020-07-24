@@ -18,11 +18,14 @@ digraph { a -> b; a -> a; b -> b; }
 
 ## Features
 
-The `lib_core` directory includes the following modules:
- - `Graph`: includes functions for manipulating graphs and/or taking the symmetric, reflexive, and transitive closures of those graphs.
- - `Pathing`: includes functions for finding the depth-first, breadth-first, and best-first traversals of a graph.
-
-The `lib_dot` directory includes the following modules:
- - `Dot`: includes functions for importing and/or exporting DOT scripts as valid graphs which can be used by `lib_core`.
- - `Parser`: monadic recursive descent parser.
-
+This application only supports a limited subset of the DOT language grammar. It should be used for very basic relation-like graphs and trees. The currently supported features are
+ - methods of adding and removing edges or vertices from a graph
+ - methods of taking the symmetric, reflexive, transitive, and antisymmetric closures of graphs
+ - method of composing two graphs
+ - methods of transforming a graph into an equivalence or order relation
+ - methods of performing boolean operations on graphs: taking the union, disjoint union, intersection, and set difference of two graphs
+ - methods of computing the depth-first, breadth-first, and best-first traversals of a graph or tree
+ - ability to parse and encode simple DOT scripts
+ - support for directed and undirected graphs
+ - support for paths: `digraph { a -> b -> c -> d; }` (equivalent to `digraph { a -> b; b -> c; c -> d; }`)
+ - support for clusters: `digraph { root -> { x y z }; }` (equivalent to `digraph { root -> x; root -> y; root -> z; }`)
