@@ -28,7 +28,7 @@ main = do
         _ -> do
             putStrLn "usage:"
             putStrLn "  dot-edit [filepath or graph literal] [options]"
-            putStrLn "\nAvailable options:"
+            putStrLn "\navailable options:"
             putStrLn "  symmetric"
             putStrLn "  antisymmetric"
             putStrLn "  reflexive"
@@ -47,6 +47,9 @@ main = do
             putStrLn "  compose"
             putStrLn "  equivalence"
             putStrLn "  order"
+            putStrLn "\nexample:"
+            putStrLn "  ~$ dot-edit 'digraph { a -> b; b -> c; }' transitive"
+            putStrLn "  digraph { a -> b; b -> c; a -> c; }"
 
 modifyGraph :: DotGraph -> String -> DotGraph
 modifyGraph g command = case split ':' command of
