@@ -28,6 +28,25 @@ main = do
         _ -> do
             putStrLn "usage:"
             putStrLn "  dot-edit [filepath or graph literal] [options]"
+            putStrLn "\nAvailable options:"
+            putStrLn "  symmetric"
+            putStrLn "  antisymmetric"
+            putStrLn "  reflexive"
+            putStrLn "  transitive"
+            putStrLn "  transpose"
+            putStrLn "  add-edge"
+            putStrLn "  del-edge"
+            putStrLn "  del-node"
+            putStrLn "  depthf"
+            putStrLn "  breadthf"
+            putStrLn "  bestf"
+            putStrLn "  dunion"
+            putStrLn "  union"
+            putStrLn "  intersection"
+            putStrLn "  difference"
+            putStrLn "  compose"
+            putStrLn "  equivalence"
+            putStrLn "  order"
 
 modifyGraph :: DotGraph -> String -> DotGraph
 modifyGraph g command = case split ':' command of
