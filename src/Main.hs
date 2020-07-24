@@ -35,7 +35,7 @@ modifyGraph g command = case split ':' command of
     "antisymmetric" : [] -> antisymmetric g
     "reflexive" : [] -> reflexive g
     "transitive" : [] -> transitive g
-    "transpose" : [] -> transpose g
+    "transpose" : [] -> transposeGraph g
     "add-edge" : a : b : [] -> add g (a, b)
     "del-edge" : a : b : [] -> remove g (a, b)
     "del-node" : v : [] -> deleteNode g v
@@ -47,6 +47,7 @@ modifyGraph g command = case split ':' command of
     "intersection" : s : [] -> let h = unwrap $ decode s in intersection g h
     "difference" : s : [] -> let h = unwrap $ decode s in difference g h
     "compose" : s : [] -> let h = unwrap $ decode s in compose g h
+    "equivalence" : [] -> transitive $ reflexive $ symmetric g
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 unwrap :: Maybe DotGraph -> DotGraph

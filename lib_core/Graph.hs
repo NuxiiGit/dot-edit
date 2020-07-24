@@ -36,7 +36,7 @@ module Graph (module Graph)
 
     -- |Returns `True` if this graph is directed.
     isDirected :: (Eq a) => Graph a -> Bool
-    isDirected r = not $ permutation r $ transpose r
+    isDirected r = not $ permutation r $ transposeGraph r
 
     -- |Computes the left-most antisymmetric closure of this graph.
     antisymmetric :: (Eq a) => Graph a -> Graph a
@@ -49,7 +49,7 @@ module Graph (module Graph)
 
     -- |Computes the symmetric closure of this graph.
     symmetric :: (Eq a) => Graph a -> Graph a
-    symmetric r = union r $ transpose r
+    symmetric r = union r $ transposeGraph r
 
     -- |Computes the reflexive closure of this graph.
     reflexive :: (Eq a) => Graph a -> Graph a
@@ -68,8 +68,8 @@ module Graph (module Graph)
     compose r s = [(v, w) | (v, u) <- r, (u', w) <- s, u == u']
 
     -- |Computes the transpose of this graph.
-    transpose :: Graph a -> Graph a
-    transpose r = [(u, v) | (v, u) <- r]
+    transposeGraph :: Graph a -> Graph a
+    transposeGraph r = [(u, v) | (v, u) <- r]
 
     -- |Computes the domain of this graph.
     domain :: (Eq a) => Graph a -> [a]
