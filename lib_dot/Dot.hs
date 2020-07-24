@@ -7,11 +7,6 @@ module Dot (module Dot)
 
     import Control.Applicative
 
-    {- TODO:
-     - Add function for loading DOT scripts.
-     - Add function for saving DOT scripts.
-     -}
-
     -- |Type alias for dot graphs.
     type DotGraph = Graph String
 
@@ -19,8 +14,8 @@ module Dot (module Dot)
     encode :: DotGraph -> String
     encode g = if isDirected g
         then let
-            body = concat [a ++ " -> " ++ b ++ "; " | (a, b) <- g]
-            in "digraph { " ++ body ++ "}"
+            body = concat ["  " ++ a ++ " -> " ++ b ++ ";\n" | (a, b) <- g]
+            in "digraph {\n" ++ body ++ "}"
         else let
             g' = antisymmetric g
             body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g']
