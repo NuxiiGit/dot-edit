@@ -103,7 +103,7 @@ module Parser (module Parser)
 
     -- |Parses an identifier.
     identifier :: Parser String
-    identifier = graphic <|> numeral
+    identifier = graphic <|> numeral <|> literal
 
     -- |Parses a graphic identifier.
     graphic :: Parser String
@@ -129,6 +129,14 @@ module Parser (module Parser)
             decimal <- char '.'
             r <- many $ digit
             return $ l ++ [decimal] ++ r
+
+    -- |Parses a literal identifier
+    literal :: Parser String
+    literal = do
+        char '"'
+        ident <- many $ sat (/= '"')
+        char '"'
+        return ident
 
     -- |Parses a string.
     string :: String -> Parser String
