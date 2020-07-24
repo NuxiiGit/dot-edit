@@ -18,9 +18,8 @@ main = do
             context <- if sourceIsFile
                 then readFile source
                 else return source
-            case decode context of
-                Just g -> putStrLn $ encode $ foldl modifyGraph g args
-                Nothing -> putStrLn $ "unable to parse graph"
+            let g = unwrap $ decode context
+            putStrLn $ encode $ foldl modifyGraph g args
         _ -> putStrLn "please supply a source and destination path"
 
 modifyGraph :: DotGraph -> String -> DotGraph
@@ -36,7 +35,12 @@ modifyGraph g command = case split ':' command of
     "depthf" : v : [] -> depthFirst g v
     "breadthf" : v : [] -> breadthFirst g v
     "bestf" : v : [] -> bestFirst g v
+    "union" : s : [] -> let h = unwrap $ decode s in union g h
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
+
+unwrap :: Maybe DotGraph -> DotGraph
+unwrap (Just g) = g
+unwrap Nothing = error "unable to parse dot graph"
 
 split :: (Eq a) => a -> [a] -> [[a]]
 split _ [] = []
