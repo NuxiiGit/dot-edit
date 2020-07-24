@@ -11,7 +11,7 @@ module Dot (module Dot)
      - Add function for loading DOT scripts.
      - Add function for saving DOT scripts.
      -}
-    
+
     -- |Type alias for dot graphs.
     type DotGraph = Graph String
 
