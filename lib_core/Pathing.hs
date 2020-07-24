@@ -2,7 +2,7 @@
 module Pathing (module Pathing)
     where
     import Graph
-    import Data.List (sortBy)
+    import Data.List (sortBy, sort)
 
     -- |Computes the depth-first traversal of a graph.
     depthFirst :: (Ord a) => Graph a -> a -> Graph a
