@@ -1,10 +1,20 @@
 # dot-edit
 
-This repository contains the source code for `dot-edit`, a work-in-progress application for manipulating and generating simple graphs from DOT scripts.
+This repository contains the source code for `dot-edit`, a simple command-line application for manipulating and generating simple graphs from DOT scripts.
 
-## How Graphs are Stored
+## Examples
 
-Graphs are stored using very basic DOT scripts. Storing additional metadata will probably not be implemented any time soon.
+Taking the transitive closure of a graph
+```
+~$ dot-edit 'digraph { a -> b; b -> c; }' transitive
+digraph { a -> b; b -> c; a -> c; }
+```
+
+Creating custom graphs without a template
+```
+~$ dot-edit add-edge:a:b reflexive
+digraph { a -> b; a -> a; b -> b; }
+```
 
 ## Features
 
