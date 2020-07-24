@@ -35,7 +35,10 @@ modifyGraph g command = case split ':' command of
     "depthf" : v : [] -> depthFirst g v
     "breadthf" : v : [] -> breadthFirst g v
     "bestf" : v : [] -> bestFirst g v
+    "dunion" : s : [] -> let h = unwrap $ decode s in dunion g h
     "union" : s : [] -> let h = unwrap $ decode s in union g h
+    "intersection" : s : [] -> let h = unwrap $ decode s in intersection g h
+    "difference" : s : [] -> let h = unwrap $ decode s in difference g h
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 unwrap :: Maybe DotGraph -> DotGraph
