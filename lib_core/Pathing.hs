@@ -23,8 +23,8 @@ module Pathing (module Pathing)
     traversal f r root = search ([] `f` branches r root) []
         where
         search [] visits = reverse visits
-        search (e : es) visits = if any (\x -> snd x == snd e) visits
+        search ((e@(_, v)) : es) visits = if v == root || any ((== v) . snd) visits
             then search es visits
             else search frontier (e : visits)
             where
-            frontier = es `f` branches r (snd e)
+            frontier = es `f` branches r v
