@@ -103,10 +103,14 @@ module Parser (module Parser)
 
     -- |Parses an identifier.
     identifier :: Parser String
-    identifier = do
+    identifier = graphic
+
+    -- |Parses a graphic.
+    graphic :: Parser String
+    graphic = do
         x <- alphabetic
         xs <- many alphanumeric
-        return (x : xs)
+        return $ x : xs
 
     -- |Parses a string.
     string :: String -> Parser String
