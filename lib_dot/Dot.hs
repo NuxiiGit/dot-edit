@@ -7,6 +7,8 @@ module Dot (module Dot)
 
     import Control.Applicative
 
+    import Data.Char
+
     -- |Type alias for dot graphs.
     type DotGraph = Graph String
 
@@ -14,12 +16,17 @@ module Dot (module Dot)
     encode :: DotGraph -> String
     encode g = if isDirected g
         then let
-            body = concat ["  " ++ a ++ " -> " ++ b ++ ";\n" | (a, b) <- g]
+            body = concat ["  " ++ display a ++ " -> " ++ display b ++ ";\n" | (a, b) <- g]
             in "digraph {\n" ++ body ++ "}"
         else let
             g' = antisymmetric g
-            body = concat ["  " ++ a ++ " -- " ++ b ++ ";\n" | (a, b) <- g']
+            body = concat ["  " ++ display a ++ " -- " ++ display b ++ ";\n" | (a, b) <- g']
             in "graph {\n" ++ body ++ "}"
+        where
+        display [] = "\"\""
+        display str@(x : xs) = if isAlpha x && all isAlphaNum xs
+            then str
+            else "\"" ++ str ++ "\""
 
     -- |Writes a graph to the DOT format.
     decode :: String -> Maybe DotGraph
