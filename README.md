@@ -26,6 +26,9 @@ This application only supports a limited subset of the DOT language grammar. It 
  - methods of performing boolean operations on graphs: taking the union, disjoint union, intersection, and set difference of two graphs
  - methods of computing the depth-first, breadth-first, and best-first traversals of a graph or tree
  - ability to parse and encode simple DOT scripts
- - support for directed and undirected graphs
+ - support for directed (`digraph { .. }`) and undirected (`graph { .. }`) graphs
  - support for paths: `digraph { a -> b -> c -> d; }` (equivalent to `digraph { a -> b; b -> c; c -> d; }`)
  - support for clusters: `digraph { root -> { x y z }; }` (equivalent to `digraph { root -> x; root -> y; root -> z; }`)
+ - support for alphanumeric (`abc`), numeral (`-12.3`), and literal (`"hello world"`) identifiers
+ - support for automatic semi-colon and comma insertion
+ - support for line and multi-line comments
