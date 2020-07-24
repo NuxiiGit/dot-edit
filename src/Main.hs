@@ -9,6 +9,8 @@ import System.Environment
 
 import Control.Monad
 
+import Data.Maybe (isJust)
+
 main :: IO ()
 main = do
     args <- getArgs
@@ -18,9 +20,14 @@ main = do
             context <- if sourceIsFile
                 then readFile source
                 else return source
-            let g = unwrap $ decode context
-            putStrLn $ encode $ foldl modifyGraph g args
-        _ -> putStrLn "please supply a source and destination path"
+            let mg = decode context
+            let args' = if isJust mg
+                then args
+                else source : args
+            putStrLn $ encode $ foldl modifyGraph (unwrapOr [] mg) args'
+        _ -> do
+            putStrLn "usage:"
+            putStrLn "  dot-edit [filepath or graph literal] [options]"
 
 modifyGraph :: DotGraph -> String -> DotGraph
 modifyGraph g command = case split ':' command of
@@ -43,8 +50,11 @@ modifyGraph g command = case split ':' command of
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 unwrap :: Maybe DotGraph -> DotGraph
-unwrap (Just g) = g
-unwrap Nothing = error "unable to parse dot graph"
+unwrap = unwrapOr (error "unable to parse dot graph")
+
+unwrapOr :: DotGraph -> Maybe DotGraph -> DotGraph
+unwrapOr _ (Just g) = g
+unwrapOr fail Nothing = fail
 
 split :: (Eq a) => a -> [a] -> [[a]]
 split _ [] = []
