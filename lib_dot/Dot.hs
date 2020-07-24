@@ -27,10 +27,10 @@ module Dot (module Dot)
             in "graph { " ++ body ++ "}"
 
     -- |Writes a graph to the DOT format.
-    decode :: String -> DotGraph
+    decode :: String -> Maybe DotGraph
     decode xs = case parse (graph <|> digraph) xs of
-        Just (g, _) -> g
-        _ -> error "failed to parse graph"
+        Just (g, _) -> Just g
+        _ -> Nothing
 
     -- |Parses a graph.
     graph :: Parser DotGraph

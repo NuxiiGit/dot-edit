@@ -18,9 +18,9 @@ main = do
             context <- if sourceIsFile
                 then readFile source
                 else return source
-            let g = foldl modifyGraph (decode context) args
-            putStrLn $ encode g
-            --writeGraph dest $! g
+            case decode context of
+                Just g -> putStrLn $ encode $ foldl modifyGraph g args
+                Nothing -> putStrLn $ "unable to parse graph"
         _ -> putStrLn "please supply a source and destination path"
 
 modifyGraph :: DotGraph -> String -> DotGraph
