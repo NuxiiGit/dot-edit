@@ -11,7 +11,6 @@ import Control.Monad
 
 main :: IO ()
 main = do
-    putStrLn $ show $ bestFirst [(1, 2), (2, 3), (1, 4), (3, 4)] 1
     args <- getArgs
     case args of
         source : args -> do
@@ -34,6 +33,9 @@ modifyGraph g command = case split ':' command of
     "add-edge" : a : b : [] -> add g (a, b)
     "del-edge" : a : b : [] -> remove g (a, b)
     "del-node" : v : [] -> deleteNode g v
+    "depthf" : v : [] -> depthFirst g v
+    "breadthf" : v : [] -> breadthFirst g v
+    "bestf" : v : [] -> bestFirst g v
     x -> error $ "invalid graph modifier - " ++ show command ++ " (" ++ show x ++ ")"
 
 split :: (Eq a) => a -> [a] -> [[a]]
