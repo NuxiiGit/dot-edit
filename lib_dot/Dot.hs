@@ -18,8 +18,8 @@ module Dot (module Dot)
             in "digraph {\n" ++ body ++ "}"
         else let
             g' = antisymmetric g
-            body = concat [a ++ " -- " ++ b ++ "; " | (a, b) <- g']
-            in "graph { " ++ body ++ "}"
+            body = concat ["  " ++ a ++ " -- " ++ b ++ ";\n" | (a, b) <- g']
+            in "graph {\n" ++ body ++ "}"
 
     -- |Writes a graph to the DOT format.
     decode :: String -> Maybe DotGraph
