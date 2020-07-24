@@ -116,8 +116,14 @@ module Parser (module Parser)
     numeral :: Parser String
     numeral = do
         sign <- many $ char '-'
-        digits <- some $ digit
-        return $ sign ++ digits
+        magnitude <- integral <|> fractional
+        return $ sign ++ magnitude
+        where
+        integral = some $ digit
+        fractional = do
+            decimal <- char '.'
+            digits <- some $ digit
+            return $ decimal : digits
 
     -- |Parses a string.
     string :: String -> Parser String
