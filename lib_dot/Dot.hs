@@ -37,7 +37,7 @@ module Dot (module Dot)
     graph = do
         symbol "graph"
         symbol "{"
-        gs <- some $ subgraph "--"
+        gs <- many $ subgraph "--"
         symbol "}"
         return $ symmetric $ concat gs
 
@@ -46,7 +46,7 @@ module Dot (module Dot)
     digraph = do
         symbol "digraph"
         symbol "{"
-        gs <- some $ subgraph "->"
+        gs <- many $ subgraph "->"
         symbol "}"
         return $ concat gs
 
