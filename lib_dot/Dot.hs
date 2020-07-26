@@ -16,16 +16,16 @@ module Dot (module Dot)
     encode :: DotGraph -> String
     encode g = if isDirected g
         then let
-            body = concat ["  " ++ display' a ++ " -> " ++ display' b ++ ";\n" | (a, b) <- g]
+            body = concat ["  " ++ display a ++ " -> " ++ display b ++ ";\n" | (a, b) <- g]
             in "digraph {\n" ++ body ++ "}"
         else let
             g' = antisymmetric g
-            body = concat ["  " ++ display' a ++ " -- " ++ display' b ++ ";\n" | (a, b) <- g']
+            body = concat ["  " ++ display a ++ " -- " ++ display b ++ ";\n" | (a, b) <- g']
             in "graph {\n" ++ body ++ "}"
         where
-        display' xs = case parse (graphic <|> numeral) xs of
+        display xs = case parse (graphic <|> numeral) xs of
             Just (xs', []) | xs' == xs -> xs
-            _ -> "\"" ++ xs ++ "\""
+            _ -> show xs
 
     -- |Writes a graph to the DOT format.
     decode :: String -> Maybe DotGraph
