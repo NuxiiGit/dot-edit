@@ -147,6 +147,15 @@ module Parser (module Parser)
                         seq <- next
                         return $ case seq of
                             'n' -> '\n'
+                            't' -> '\t'
+                            'v' -> '\v'
+                            'b' -> '\b'
+                            'r' -> '\r'
+                            'f' -> '\f'
+                            'a' -> '\a'
+                            '\\' -> '\\'
+                            '\'' -> '\''
+                            '\"' -> '\"'
                             _ -> seq
                 xs <- endLiteral
                 return $ x' : xs
