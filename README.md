@@ -14,13 +14,15 @@ digraph {
 }
 ```
 
-Creating custom graphs without a template
+Taking the depth-first traversal of a graph, starting from `a` as a root node
 ```
-~$ dot-edit add-edge:a:b reflexive
+~$ dot-edit 'graph { a -- { b c d }; b -- { c e }; c -- f; }' depthf:a
 digraph {
   a -> b;
-  a -> a;
-  b -> b;
+  b -> c;
+  c -> f;
+  b -> e;
+  a -> d;
 }
 ```
 
@@ -36,7 +38,7 @@ This application only supports a limited subset of the DOT language grammar. It 
  - ability to parse and encode simple DOT scripts
  - supports directed (`digraph { .. }`) and undirected (`graph { .. }`) graphs
  - supports paths: `digraph { a -> b -> c -> d; }` (equivalent to `digraph { a -> b; b -> c; c -> d; }`)
- - supports clusters: `digraph { root -> { x y z }; }` (equivalent to `digraph { root -> x; root -> y; root -> z; }`)
+ - supports clusters: `digraph { o -> { x y z }; }` (equivalent to `digraph { o -> x; o -> y; o -> z; }`)
  - supports alphanumeric (`abc`), numeral (`-12.3`), and literal (`"hello world"`) identifiers
  - supports automatic semi-colon and comma insertion
  - supports line and multi-line comments
