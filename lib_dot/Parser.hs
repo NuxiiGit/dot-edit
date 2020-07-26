@@ -137,12 +137,20 @@ module Parser (module Parser)
         endLiteral
         where
         endLiteral = do
+            x <- escapeSeq
+            if x == '"'
+            then return ""
+            else do
+                xs <- endLiteral
+                return $ x : xs
+        escapeSeq = do
             x <- next
-            case x of
-                '"' -> return ""
-                _ -> do
-                    xs <- endLiteral
-                    return $ x : xs
+            if x /= '\\'
+            then return x
+            else do
+                seq <- next
+                case seq of
+                    _ -> return seq
 
 
     -- |Parses a string.
