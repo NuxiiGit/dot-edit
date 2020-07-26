@@ -1,0 +1,6 @@
+digraph {
+  x -> 1
+  2 -> { 3 x a }
+  a -> b
+  b -> "hello" -> -3.2 -> x
+}
