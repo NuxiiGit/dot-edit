@@ -24,9 +24,10 @@ module Dot (module Dot)
             in "graph {\n" ++ body ++ "}"
         where
         display [] = "\"\""
-        display str@(x : xs) = if isAlpha x && all isAlphaNum xs
+        display str@(x : xs) = if isAlpha x && all validGraphic xs
             then str
             else "\"" ++ str ++ "\""
+        validGraphic x = isAlphaNum x || x == '_'
 
     -- |Writes a graph to the DOT format.
     decode :: String -> Maybe DotGraph
