@@ -134,9 +134,16 @@ module Parser (module Parser)
     literal :: Parser String
     literal = do
         char '"'
-        ident <- many $ sat (/= '"')
-        char '"'
-        return ident
+        endLiteral
+        where
+        endLiteral = do
+            x <- next
+            case x of
+                '"' -> return ""
+                _ -> do
+                    xs <- endLiteral
+                    return $ x : xs
+
 
     -- |Parses a string.
     string :: String -> Parser String

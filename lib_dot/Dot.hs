@@ -8,7 +8,6 @@ module Dot (module Dot)
     import Control.Applicative
 
     import Data.Char
-    import Data.Text (replace)
 
     -- |Type alias for dot graphs.
     type DotGraph = Graph String
@@ -26,7 +25,7 @@ module Dot (module Dot)
         where
         display' xs = case parse (graphic <|> numeral) xs of
             Just (xs', []) | xs' == xs -> xs
-            _ -> "\"" ++ replace "\"" "\\\"" xs ++ "\""
+            _ -> "\"" ++ xs ++ "\""
 
     -- |Writes a graph to the DOT format.
     decode :: String -> Maybe DotGraph
